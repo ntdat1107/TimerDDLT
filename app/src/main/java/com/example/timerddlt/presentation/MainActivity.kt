@@ -1,4 +1,4 @@
-package com.example.timerddlt.Presentation
+package com.example.timerddlt.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
