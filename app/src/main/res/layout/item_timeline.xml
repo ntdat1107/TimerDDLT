@@ -106,7 +106,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/time_line_description"
-                    android:text="@string/time_line_desciption"
+                    android:text="@string/time_line_description"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
             </LinearLayout>

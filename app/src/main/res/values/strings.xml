@@ -2,6 +2,7 @@
     <string name="app_name">TimerDDLT</string>
     <string name="homepage">Home Page</string>
     <string name="timeline">Timeline</string>
+    <string name="schedule">Schedule</string>
     <string name="menu_icon"></string>
     <string name="task">Study</string>
     <string name="description">Description</string>
@@ -15,6 +16,11 @@
     <string name="timeline_minute">51</string>
     <string name="content_icon_default"></string>
     <string name="time_line_title">Study</string>
-    <string name="time_line_desciption">Desciption: \n Study PPL in 15m</string>
-
+    <string name="time_line_description">Description: \n Study PPL in 15m</string>
+    <string name="schedule_month">April</string>
+    <string name="schedule_year">2022</string>
+    <string name="schedule_start_time">18:30</string>
+    <string name="schedule_line">-</string>
+    <string name="schedule_end_time">20:30</string>
+    <string name="schedule_description">Learn English</string>
 </resources>
