@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">TimerDDLT</string>
+    <string name="homepage">Home Page</string>
+    <string name="timeline">Timeline</string>
+    <string name="menu_icon"></string>
+    <string name="task">Study</string>
+    <string name="description">Description</string>
+    <string name="content_description">Study PPL in 15m</string>
+    <string name="content_button">Start</string>
+    <string name="minute">45</string>
+    <string name="colon">:</string>
+    <string name="sec">00</string>
+    <string name="name_music">Wedding Moment</string>
+    <string name="timeline_hour">20</string>
+    <string name="timeline_minute">51</string>
+    <string name="content_icon_default"></string>
+    <string name="time_line_title">Study</string>
+    <string name="time_line_desciption">Desciption: \n Study PPL in 15m</string>
+
 </resources>

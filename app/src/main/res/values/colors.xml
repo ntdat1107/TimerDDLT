@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="text_color">#090A0A</color>
+    <color name="background_color">#EFF5FF</color>
+    <color name="button_color">#38979D</color>
+    <color name="button_pause_color">#7675A4</color>
+    <color name="color_vertical_line">#20B6BF</color>
+    <color name="time_line_title">#5C5EC2</color>
+    <color name="time_line_description">#51A387</color>
 </resources>
