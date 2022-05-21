@@ -14,4 +14,7 @@
     <color name="color_vertical_line">#20B6BF</color>
     <color name="time_line_title">#5C5EC2</color>
     <color name="time_line_description">#51A387</color>
+    <color name="background_menu">#A3E0E3</color>
+    <color name="text_app_name">#222133</color>
+    <color name="email_app">#7C7C7A</color>
 </resources>
