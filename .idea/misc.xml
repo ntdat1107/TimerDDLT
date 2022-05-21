@@ -3,24 +3,36 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable-v24/small_circle.xml" value="0.233" />
-        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/bg_timeline_title.xml" value="0.233" />
-        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/circle.xml" value="0.233" />
-        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/ic_add.xml" value="0.233" />
-        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/ic_back.xml" value="0.233" />
-        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/ic_back_sche.xml" value="0.242" />
-        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/ic_hamburger.xml" value="0.2555" />
-        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/ic_menu.xml" value="0.209" />
-        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/ic_music_on.xml" value="0.233" />
-        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/shadow.xml" value="0.233" />
-        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/shadow_schedule.xml" value="0.242" />
-        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/virtical_line.xml" value="0.233" />
-        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/layout/HomePage.xml" value="0.264" />
-        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/layout/item_schedule.xml" value="0.25" />
-        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/layout/item_timeline.xml" value="0.264" />
-        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/layout/schedule_page.xml" value="0.25" />
-        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/layout/timelinepage.xml" value="0.264" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/ic_back.xml" value="0.2645" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/ic_back_sche.xml" value="0.2645" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/ic_baseline_add_box_24.xml" value="0.2645" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/ic_baseline_arrow_forward_24.xml" value="0.2645" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.2645" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/ic_baseline_pause_24.xml" value="0.2645" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/ic_baseline_remove_circle_outline_24.xml" value="0.2645" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/ic_baseline_skip_next_24.xml" value="0.2645" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/ic_edit.xml" value="0.2645" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/ic_hamburger.xml" value="0.2645" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/stats_full.xml" value="0.2645" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/stats_progress.xml" value="0.2645" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/virtical_line.xml" value="0.2645" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/activity_alarm_setting.xml" value="0.264" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/activity_setting.xml" value="0.2604166666666667" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/activity_stastistics_month.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/activity_statistic_day.xml" value="0.264" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/alarm_setting.xml" value="0.2" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/chart_statistic.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/chart_statistic_demo.xml" value="0.72" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/homepage.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/item_schedule.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/item_timeline.xml" value="0.536" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/music_item.xml" value="0.4" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/schedule_page.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/setting.xml" value="0.4" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/statistics_day.xml" value="0.264" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/statistics_month.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/statistics_page.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/TienMinh/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/timelinepage.xml" value="0.27447916666666666" />
       </map>
     </option>
   </component>

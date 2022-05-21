@@ -10,6 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TimerDDLT">
         <activity
+            android:name=".presentation.AlarmSettingActivity"
+            android:exported="true" />
+        <activity
+            android:name=".presentation.SettingActivity"
+            android:exported="true" />
+        <activity
+            android:name=".presentation.StastisticsMonthActivity"
+            android:exported="true" />
+        <activity
+            android:name=".presentation.StatisticDayActivity"
+            android:exported="true" />
+        <activity
             android:name=".presentation.MainActivity"
             android:exported="true">
             <intent-filter>

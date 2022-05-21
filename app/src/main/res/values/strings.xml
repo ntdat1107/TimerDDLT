@@ -3,6 +3,9 @@
     <string name="homepage">Home Page</string>
     <string name="timeline">Timeline</string>
     <string name="schedule">Schedule</string>
+    <string name="statistics">Statistics</string>
+    <string name="setting">Setting</string>
+    <string name="alarm_setting">Alarm Setting</string>
     <string name="menu_icon"></string>
     <string name="task">Study</string>
     <string name="description">Description</string>

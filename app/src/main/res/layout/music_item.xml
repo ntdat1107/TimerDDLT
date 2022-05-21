@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/icon_prev"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:contentDescription="@string/menu_icon"
+            android:src="@drawable/ic_baseline_remove_circle_outline_24"
+            app:tint="#383B41"
+            />
+
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/timeline_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="The way "
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/timeline_desciption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="10exp - Trippie Redd,Russ - ..."
+                android:textSize="20sp" />
+        </LinearLayout>
+
+
+
+        <ImageView
+            android:id="@+id/icon_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="-50dp"
+            android:contentDescription="@string/menu_icon"
+            android:src="@drawable/ic_baseline_menu_24"
+            android:scaleX="-1"
+            app:tint="@color/black" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
