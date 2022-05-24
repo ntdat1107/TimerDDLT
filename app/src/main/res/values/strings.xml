@@ -4,15 +4,11 @@
     <string name="homepage">Home Page</string>
     <string name="timeline">Timeline</string>
     <string name="schedule">Schedule</string>
-<<<<<<< HEAD
     <string name="statistics">Statistics</string>
     <string name="setting">Setting</string>
     <string name="alarm_setting">Alarm Setting</string>
-=======
     <string name="statistic">Statistics</string>
-    <string name="alarm_setting">Alarm Setting</string>
     <string name="settings">Settings</string>
->>>>>>> df6addbfae16811bb3c0fe9846041f81b190a29d
     <string name="menu_icon"></string>
     <string name="task">Study</string>
     <string name="description">Description</string>
