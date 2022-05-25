@@ -88,7 +88,7 @@
                     android:layout_height="fill_parent"
                     android:contentDescription="@string/description"
                     android:gravity="center_horizontal"
-                    android:padding="5dp"
+                    android:padding="5dip"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_music_on" />
             </LinearLayout>
@@ -160,38 +160,32 @@
                     android:textSize="22sp"
                     android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/et_description"
+                <TextView
+                    android:id="@+id/tv_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:padding="16dp"
-                    android:textAlignment="center"
-                    android:textColor="#9C9C9C"
-                    android:textSize="18sp"
-                    android:hint="@string/hint_description"
-                    tools:text="Description" />
+                    android:text="@string/content_description"
+                    android:textColor="@color/text_color"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <Button
                 android:id="@+id/btn_start"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="25dp"
                 android:background="@drawable/button_background"
                 android:foreground="?attr/selectableItemBackground"
-                android:gravity="center"
-                android:paddingStart="40dp"
-                android:paddingTop="5dp"
-                android:paddingEnd="40dp"
-                android:paddingBottom="5dp"
+                android:paddingStart="50dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="50dp"
+                android:paddingBottom="10dp"
                 android:text="@string/start_btn"
-                android:textColor="@color/white"
-                android:textSize="28sp"
+                android:textSize="32sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ll_description" />
+                app:layout_constraintTop_toBottomOf="@id/ll_description"
+                android:layout_marginTop="25dp"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
