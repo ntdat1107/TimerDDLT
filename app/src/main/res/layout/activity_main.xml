@@ -94,7 +94,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/tv_tag"
+                android:id="@+id/ll_tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="35dp"
@@ -102,13 +102,13 @@
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/toolbar_home"
-                tools:ignore="UseCompoundDrawables">
+                app:layout_constraintTop_toBottomOf="@id/toolbar_home">
 
-                <TextView
-                    android:id="@+id/text_task"
+                <EditText
+                    android:id="@+id/et_tag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
                     android:text="@string/task"
                     android:textColor="@color/black"
                     android:textSize="32sp"
@@ -125,20 +125,35 @@
                     app:tint="@color/black" />
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/iv_clock"
+            <FrameLayout
+                android:id="@+id/fl_clock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginTop="40dp"
-                android:background="@drawable/shadow"
-                android:contentDescription="@string/menu_icon"
-                android:src="@drawable/circle"
                 app:layout_constraintBottom_toTopOf="@+id/ll_description"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_tag" />
+                app:layout_constraintTop_toBottomOf="@+id/ll_tag">
+
+                <ImageView
+                    android:id="@+id/iv_clock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shadow"
+                    android:contentDescription="@string/menu_icon"
+                    android:src="@drawable/circle" />
+
+                <TextView
+                    android:id="@+id/tv_timer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="10:00"
+                    android:textColor="@color/button_color"
+                    android:textSize="50sp" />
+
+            </FrameLayout>
 
             <LinearLayout
                 android:id="@+id/ll_description"
@@ -149,7 +164,7 @@
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_clock">
+                app:layout_constraintTop_toBottomOf="@id/fl_clock">
 
                 <TextView
                     android:id="@+id/tv_title_description"
@@ -162,25 +177,29 @@
 
                 <EditText
                     android:id="@+id/et_description"
-                    android:layout_width="wrap_content"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:padding="16dp"
-                    android:textAlignment="center"
-                    android:textColor="#9C9C9C"
-                    android:textSize="18sp"
+                    android:gravity="top|center_horizontal"
                     android:hint="@string/hint_description"
-                    tools:text="Description" />
+                    android:inputType="textMultiLine"
+                    android:lines="5"
+                    android:maxLength="50"
+                    android:maxLines="10"
+                    android:minLines="1"
+                    android:padding="16dp"
+                    android:scrollbars="vertical"
+                    android:textColor="#9C9C9C"
+                    android:textSize="18sp" />
             </LinearLayout>
 
-            <Button
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="25dp"
-                android:background="@drawable/button_background"
-                android:foreground="?attr/selectableItemBackground"
+                android:background="@drawable/button_background_start"
                 android:gravity="center"
                 android:paddingStart="40dp"
                 android:paddingTop="5dp"
@@ -189,6 +208,48 @@
                 android:text="@string/start_btn"
                 android:textColor="@color/white"
                 android:textSize="28sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ll_description" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_pause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/button_background_pause"
+                android:enabled="false"
+                android:gravity="center"
+                android:paddingStart="40dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="40dp"
+                android:paddingBottom="5dp"
+                android:text="@string/pause_button"
+                android:textColor="@color/white"
+                android:textSize="28sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ll_description" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_continue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/button_background_pause"
+                android:enabled="false"
+                android:gravity="center"
+                android:paddingStart="40dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="40dp"
+                android:paddingBottom="5dp"
+                android:text="Continue"
+                android:textColor="@color/white"
+                android:textSize="28sp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ll_description" />

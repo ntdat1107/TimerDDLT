@@ -38,8 +38,16 @@
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/layout/timelinepage.xml" value="0.264" />
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/menu/activity_main_drawer.xml" value="0.25" />
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/menu/home.xml" value="0.25" />
+        <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/background_button_no.xml" value="0.1" />
+        <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/background_button_yess.xml" value="0.1" />
         <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/button_background.xml" value="0.1" />
+        <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/button_background_cant_click.xml" value="0.103" />
+        <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/button_background_pause.xml" value="0.1" />
+        <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/button_background_start.xml" value="0.1" />
         <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/circle.xml" value="0.1195" />
+        <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/dialog_background.xml" value="0.1" />
+        <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/edit_text_background.xml" value="0.1" />
+        <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/header_dialog.xml" value="0.1" />
         <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/ic_alarm_setting.xml" value="0.152" />
         <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/ic_edit.xml" value="0.1195" />
         <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/drawable/ic_home.xml" value="0.121" />
@@ -56,8 +64,10 @@
         <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/activity_main.xml" value="0.1787037037037037" />
         <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/activity_timeline.xml" value="0.25" />
         <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/chart_statistic_demo.xml" value="0.15416666666666667" />
+        <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/dialog_edit_tag.xml" value="0.2" />
         <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/fragment_home.xml" value="0.2" />
         <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/header.xml" value="0.25" />
+        <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/layout/time_picker_dialog.xml" value="0.15" />
         <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/menu/main_menu.xml" value="0.15416666666666667" />
         <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/mipmap-anydpi-v26/ic_logo.xml" value="0.131" />
         <entry key="..\:/Users/TienDat/AndroidStudioProjects/TimerDDLT/app/src/main/res/mipmap-anydpi-v26/ic_logo_round.xml" value="0.1" />
