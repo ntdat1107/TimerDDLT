@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable-v24/small_circle.xml" value="0.233" />
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/bg_timeline_title.xml" value="0.233" />
+        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/button.xml" value="0.2085" />
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/circle.xml" value="0.233" />
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/ic_add.xml" value="0.233" />
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/ic_back.xml" value="0.233" />
@@ -13,8 +14,11 @@
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/ic_logo_background.xml" value="0.1995" />
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/ic_menu.xml" value="0.209" />
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/ic_music_on.xml" value="0.233" />
+        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/ic_success_background.xml" value="0.2085" />
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/shadow.xml" value="0.233" />
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/shadow_schedule.xml" value="0.242" />
+        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/title_complete_goal.xml" value="0.2085" />
+        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/title_complete_goal_body.xml" value="0.2085" />
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/drawable/virtical_line.xml" value="0.233" />
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/layout-v23/activity_main.xml" value="0.25" />
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/layout/HomePage.xml" value="0.264" />
@@ -25,8 +29,10 @@
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/layout/activity_timeline.xml" value="0.25" />
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/layout/app_bar_home.xml" value="0.25" />
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/layout/app_bar_home_page.xml" value="0.25" />
+        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/layout/complete_goal.xml" value="0.29075425790754256" />
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/layout/content_home.xml" value="0.25" />
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/layout/content_home_page.xml" value="0.10989583333333333" />
+        <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/layout/fail_goal.xml" value="0.264" />
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/layout/fragment_gallery.xml" value="0.25" />
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/DAI HOC/HK212/Mobile/Assignment 3/TimerDDLT/app/src/main/res/layout/fragment_slideshow.xml" value="0.25" />
