@@ -20,16 +20,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.lifecycleScope
 import com.example.timerddlt.R
 import com.example.timerddlt.data.repository.TimerRepositoryImpl
 import com.example.timerddlt.databinding.ActivityMainBinding
 import com.example.timerddlt.databinding.TimePickerDialogBinding
 import com.example.timerddlt.domain.model.Event
+import com.example.timerddlt.domain.repository.TimerRepository
 import com.example.timerddlt.services.BroadcastService
 import com.example.timerddlt.services.NoticeReceiver
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.ceil
@@ -46,13 +49,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var mTimeInMilis: Long = 600000
     var millisUntilFinished: Long = mTimeInMilis
 
+    private lateinit var timerRepositoryImpl : TimerRepository
+    private lateinit var vm : MainViewModel
 
-//    private val timerRepositoryImpl = TimerRepositoryImpl.provideTimerRepositoryImpl(applicationContext)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+
+
+        timerRepositoryImpl = TimerRepositoryImpl.provideTimerRepositoryImpl(applicationContext)
+        vm = MainViewModel(timerRepositoryImpl)
+
+
 
         val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
         mTimeInMilis = prefs.getLong("millisLeft", 600000)
@@ -78,23 +88,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 editor.putInt("timerRunning", state)
                 editor.apply()
 
-                //_________________________________________________
 
-                val event = Event(
+
+                //_____________________________________________________________________
+                val event2 = Event(
                     title = "a",
                     description = "a",
                     lasting = 1L,
                     startTime = 1L,
                     endTime = 1L,
+                    id = 3
                 )
-
-//                GlobalScope.launch {
+//                vm.addEvent(event2)
+//                lifecycleScope.async (Dispatchers.IO) {
+////                    vm.addEvent(event2)
 //                    timerRepositoryImpl.insertEvent(event)
 //                }
+                //_____________________________________________________________________
 
 
-
-                //_________________________________________________
                 startActivity(Intent(this, FinishActivity::class.java))
             }
         } else {

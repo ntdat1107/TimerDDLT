@@ -1,6 +1,7 @@
 package com.example.timerddlt.data.repository
 
 import android.content.Context
+import android.util.Log
 import com.example.timerddlt.data.data_source.TimerDao
 import com.example.timerddlt.data.data_source.TimerDatabase
 import com.example.timerddlt.domain.model.Event
@@ -12,6 +13,7 @@ class TimerRepositoryImpl (
 ) : TimerRepository {
 
     override fun getEvents(): Flow<List<Event>> {
+//    override suspend fun getEvents(): List<Event> {
         return timerDao.getEvents()
     }
 

@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface TimerRepository {
     fun getEvents() : Flow<List<Event>>
+//    suspend fun getEvents() : List<Event>
     suspend fun getEventById(id: Int) : Event?
     suspend fun insertEvent(event: Event)
     suspend fun deleteEvent(event: Event)
