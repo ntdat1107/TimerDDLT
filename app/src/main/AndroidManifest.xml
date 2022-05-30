@@ -10,11 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TimerDDLT">
         <activity
-            android:name=".presentation.TimelineActivity"
+            android:name=".presentation.FinishActivity"
             android:exported="false" />
+        <activity
+            android:name=".presentation.TimelineActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.TimerDDLT.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,6 +27,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver android:name=".services.NoticeReceiver" />
+
+        <service android:name=".services.BroadcastService" />
     </application>
 
 </manifest>

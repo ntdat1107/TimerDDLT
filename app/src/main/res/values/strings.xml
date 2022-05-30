@@ -37,4 +37,6 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="home">Home</string>
     <string name="hint_description">Sample: Learn in 15m</string>
+    <string name="pause_button">Pause</string>
+    <string name="study_tag">Study</string>
 </resources>
