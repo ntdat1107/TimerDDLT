@@ -373,6 +373,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             id
         )
 
+//        vm.addEvent(event)
+
 
     }
 
