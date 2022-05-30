@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.media.RingtoneManager
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -51,7 +52,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         state = prefs.getInt("timerRunning", 0)
         val mEndTime = prefs.getLong("endTime", 0)
         val editor = prefs.edit()
-        editor.apply()
         if (state != 0) {
             val timeDiff: Long = abs(mEndTime - System.currentTimeMillis())
             val remainingTimeInMillis: Long = mTimeInMilis - timeDiff
@@ -166,7 +166,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 drawerLayout!!.close()
             }
             state == 1 || state == 2 -> {
-
+                Toast.makeText(
+                    this,
+                    "Timer is running, can't back, click pause button to navigation",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             else -> {
                 super.onBackPressed()
@@ -178,6 +182,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.nav_timeline -> {
                 startActivity(Intent(this, TimelineActivity::class.java))
+            }
+            R.id.nav_schedule -> {
+                startActivity(Intent(this, ScheduleActivity::class.java))
             }
         }
         drawerLayout!!.close()
@@ -226,7 +233,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
         val editor = prefs.edit()
         val isFinished = prefs.getBoolean("finished", false)
-        Log.i("test", isFinished.toString())
         if (state == 0) {
             setUpSideBar()
         }
@@ -379,22 +385,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     @SuppressLint("LaunchActivityFromNotification")
     private fun getNotification(content: String): Notification {
-        val tempIntent = Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
-        val pendingIntentTemp = PendingIntent.getBroadcast(
-            this,
-            0,
-            tempIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
+        val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val builder = NotificationCompat.Builder(this, "notify-timer")
             .setSmallIcon(R.drawable.ic_diamond)
             .setContentTitle("Congratulation")
             .setContentText(content)
-//            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
             .setChannelId("10001")
+            .setSound(uri)
         return builder.build()
     }
 }

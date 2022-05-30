@@ -10,12 +10,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TimerDDLT">
         <activity
+            android:name=".presentation.ScheduleActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.TimerDDLT.NoActionBar" />
+        <activity
             android:name=".presentation.FinishActivity"
-            android:exported="false" />
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.TimerDDLT.NoActionBar" />
         <activity
             android:name=".presentation.TimelineActivity"
             android:exported="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.TimerDDLT.NoActionBar" />
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true"
@@ -29,6 +37,8 @@
         </activity>
 
         <receiver android:name=".services.NoticeReceiver" />
+
+        <receiver android:name=".services.ScheduleReceiver" />
 
         <service android:name=".services.BroadcastService" />
     </application>
