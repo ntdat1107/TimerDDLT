@@ -149,7 +149,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="10:00"
+                    android:text="00:10"
                     android:textColor="@color/button_color"
                     android:textSize="50sp" />
 
