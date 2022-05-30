@@ -10,8 +10,30 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TimerDDLT">
         <activity
+<<<<<<< HEAD
             android:name=".presentation.FinishActivity"
             android:exported="false" />
+=======
+            android:name=".presentation.CreateSchedule"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.TimerDDLT.NoActionBar" />
+        <activity
+            android:name=".presentation.ScheduleActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.TimerDDLT.NoActionBar" />
+        <activity
+            android:name=".presentation.FinishActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.TimerDDLT.NoActionBar" />
+        <activity
+            android:name=".presentation.TimelineActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.TimerDDLT.NoActionBar" />
+>>>>>>> tiendat
         <activity
             android:name=".presentation.TimelineActivity"
             android:exported="true"
@@ -29,6 +51,10 @@
         </activity>
 
         <receiver android:name=".services.NoticeReceiver" />
+<<<<<<< HEAD
+=======
+        <receiver android:name=".services.ScheduleReceiver" />
+>>>>>>> tiendat
 
         <service android:name=".services.BroadcastService" />
     </application>
