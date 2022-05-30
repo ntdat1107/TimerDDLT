@@ -23,6 +23,7 @@ import com.example.timerddlt.data.repository.TimerRepositoryImpl
 import com.example.timerddlt.databinding.ActivityMainBinding
 import com.example.timerddlt.databinding.TimePickerDialogBinding
 import com.example.timerddlt.domain.model.Event
+import com.example.timerddlt.domain.repository.TimerRepository
 import com.example.timerddlt.services.BroadcastService
 import com.example.timerddlt.services.NoticeReceiver
 import com.google.android.material.navigation.NavigationView
@@ -42,12 +43,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     var millisUntilFinished: Long = mTimeInMilis
 
 
-    private lateinit var timerRepositoryImpl: TimerRepositoryImpl
+    private lateinit var timerRepositoryImpl : TimerRepository
+    private lateinit var vm : MainViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+
+
+        timerRepositoryImpl = TimerRepositoryImpl.provideTimerRepositoryImpl(applicationContext)
+        vm = MainViewModel(timerRepositoryImpl)
 
         val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
         mTimeInMilis = prefs.getLong("millisLeft", 600000)
