@@ -1,26 +1,17 @@
 package com.example.timerddlt.presentation
 
 import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.app.Notification
-import android.app.PendingIntent
-import android.app.TimePickerDialog
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import android.media.RingtoneManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.timerddlt.R
 import com.example.timerddlt.adapter.ScheduleAdapter
 import com.example.timerddlt.databinding.ActivityScheduleBinding
 import com.example.timerddlt.domain.model.Event
-import com.example.timerddlt.services.ScheduleReceiver
 import java.util.*
 
 class ScheduleActivity : AppCompatActivity() {

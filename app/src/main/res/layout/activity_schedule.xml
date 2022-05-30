@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="?android:attr/actionBarSize"
             android:gravity="center"
-            android:text="@string/timeline"
+            android:text="@string/schedule"
             android:textColor="@color/text_color"
             android:textSize="24sp"
             android:textStyle="bold"

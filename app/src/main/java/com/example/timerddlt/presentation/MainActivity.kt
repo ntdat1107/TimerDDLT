@@ -9,6 +9,7 @@ import android.content.IntentFilter
 import android.media.RingtoneManager
 import android.os.Bundle
 import android.os.Handler
+import android.text.TextUtils
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -72,9 +73,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 editor.apply()
 
                 //_________________________________________________
-                updateDatabase()
+                updateDatabase(true)
                 //_________________________________________________
-                startActivity(Intent(this, FinishActivity::class.java))
+                startActivity(Intent(this, FinishActivity::class.java).apply {
+                    putExtra("tag", binding?.etTag!!.text.toString())
+                    putExtra("description", binding?.etDescription!!.text.toString())
+                })
             }
         } else {
             setUpSideBar()
@@ -83,8 +87,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
         binding?.btnStart!!.setOnClickListener {
+            if (TextUtils.isEmpty(binding?.etDescription!!.text.toString().trim { it <= ' ' })) {
+                Toast.makeText(this, "Please enter description", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (TextUtils.isEmpty(binding?.etTag!!.text.toString().trim { it <= ' ' })) {
+                Toast.makeText(this, "Please enter your mission tag", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             mTimeInMilis = (binding?.tvTimer!!.text.toString().substring(0, 2)
                 .toLong() * 60 + binding?.tvTimer!!.text.toString().substring(3, 5).toLong()) * 1000
+
+            if (mTimeInMilis < 10000) {
+                Toast.makeText(
+                    this,
+                    "Please choose time greater than 10 seconds",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
             editor.putLong("remainingTimeInMillis", mTimeInMilis)
             editor.apply()
             intentService = Intent(this, BroadcastService::class.java)
@@ -227,6 +248,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding?.btnStart!!.visibility = View.VISIBLE
         binding?.btnContinue!!.visibility = View.GONE
         binding?.btnPause!!.visibility = View.GONE
+        binding?.iconEdit!!.visibility = View.VISIBLE
+        binding?.etDescription!!.isEnabled = true
 
         binding?.etTag!!.isEnabled = false
         binding?.etTag!!.setText(getString(R.string.study_tag))
@@ -246,6 +269,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
         val editor = prefs.edit()
         val isFinished = prefs.getBoolean("finished", false)
+        state = prefs.getInt("timerRunning", 0)
         if (state == 0) {
             setUpSideBar()
         }
@@ -253,7 +277,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (isFinished) {
             editor.remove("finished")
             editor.apply()
-            startActivity(Intent(this, FinishActivity::class.java))
+            startActivity(Intent(this, FinishActivity::class.java).apply {
+                putExtra("tag", binding?.etTag!!.text.toString())
+                putExtra("description", binding?.etDescription!!.text.toString())
+            })
         }
 
         super.onResume()
@@ -298,6 +325,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val seconds: Int = ((millisUntilFinished / 1000) % 60).toInt()
             binding?.tvTimer!!.text = String.format("%02d:%02d", minutes, seconds)
 
+            if (minutes == 0 && seconds < 3) {
+                binding?.btnPause!!.setBackgroundResource(R.drawable.button_background_cant_click)
+                binding?.btnPause!!.isEnabled = false
+            }
+
             if (intent.getIntExtra("finish", 0) == 1) {
                 stopService(intentService)
                 state = 0
@@ -306,13 +338,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 editor.putInt("timerRunning", state)
                 editor.putBoolean("finished", true)
                 editor.apply()
-                updateDatabase()
-                startActivity(Intent(this, FinishActivity::class.java))
+                updateDatabase(true)
+                startActivity(Intent(this, FinishActivity::class.java).apply {
+                    putExtra("tag", binding?.etTag!!.text.toString())
+                    putExtra("description", binding?.etDescription!!.text.toString())
+                })
             }
         }
     }
 
-    private fun updateDatabase() {
+    private fun updateDatabase(isSuccess: Boolean) {
         val prefs = getSharedPreferences("pref", MODE_PRIVATE)
         val title = binding?.etTag!!.text
         val description = binding?.etDescription!!.text!!
@@ -320,7 +355,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val startTime = prefs.getLong("start-time-of-mission", 0)
         val endTime = prefs.getLong("end-time-of-mission", 0)
         val id = 1
-        val isSuccess = prefs.getBoolean("isSuccess", true)
 
         val event = Event(
             title.toString(),
@@ -387,6 +421,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .setMessage("Are you sure to give up this mission")
                 .setPositiveButton("Yes") { dialog, _ ->
                     dialog.dismiss()
+                    val tag = binding?.etTag!!.text.toString()
+                    val desc = binding?.etDescription!!.text.toString()
                     binding?.iconEdit!!.visibility = View.VISIBLE
                     binding?.etDescription!!.isEnabled = true
                     setUpSideBar()
@@ -404,8 +440,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     editor.putLong("end-time-of-mission", System.currentTimeMillis())
                     editor.apply()
                     stopService(intentService)
-                    val intentFail = Intent(this, FinishActivity::class.java).apply {
-                        putExtra("isSuccess", false)
+
+                    updateDatabase(false)
+
+                    val intentFail = Intent(this, FailActivity::class.java).apply {
+                        putExtra("tag", tag)
+                        putExtra("description", desc)
                     }
                     startActivity(intentFail)
                 }

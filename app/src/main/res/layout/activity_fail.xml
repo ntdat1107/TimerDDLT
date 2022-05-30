@@ -30,7 +30,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
-        android:id="@+id/frame_complete_goal"
+        android:id="@+id/frame_fail_goal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="50dp"
@@ -44,14 +44,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
-            android:id="@+id/ln1_complete_goal"
+            android:id="@+id/ln1_fail_goal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/title_complete_goal"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/complete_goal_title"
+                android:id="@+id/fail_goal_title"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -61,21 +61,21 @@
                 android:paddingTop="5dp"
                 android:paddingEnd="15dp"
                 android:paddingBottom="5dp"
-                android:text="Congratulations, you've accomplished your goal"
+                android:text="Unfortunately, you have given up on the goal"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ln2_complete_goal"
+            android:id="@+id/ln2_fail_goal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/title_complete_goal_body"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/text_task_goal_complete"
+                android:id="@+id/text_task_goal_fail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="20dp"
@@ -86,22 +86,22 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/complete_image"
+                android:id="@+id/fail_image"
                 android:layout_width="165dp"
                 android:layout_height="210dp"
-                android:layout_below="@+id/text_task_goal_complete"
+                android:layout_below="@+id/text_task_goal_fail"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="70dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="70dp"
-                app:srcCompat="@drawable/success" />
+                app:srcCompat="@drawable/fail" />
 
             <TextView
-                android:id="@+id/text_task_complete_goal"
+                android:id="@+id/text_task_fail_goal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/complete_image"
+                android:layout_below="@+id/fail_image"
                 android:layout_marginTop="30dp"
                 android:text="Study PPL in 15m"
                 android:textAlignment="center"
@@ -113,11 +113,11 @@
                 android:id="@+id/btn_ok_complete_goal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/text_task_complete_goal"
+                android:layout_below="@+id/text_task_fail_goal"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="100dp"
-                android:layout_marginTop="23dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginEnd="100dp"
                 android:background="@drawable/button_background_start"
                 android:text="OK"
@@ -128,5 +128,4 @@
 
         </RelativeLayout>
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
