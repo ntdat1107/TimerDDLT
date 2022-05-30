@@ -14,7 +14,6 @@ import com.example.timerddlt.domain.model.NextEvent
 )
 abstract class TimerDatabase : RoomDatabase() {
     abstract fun useTimerDao() : TimerDao
-    abstract fun useNextEventDao() : NextEventDao
 
     companion object {
         private const val DATABASE_NAME = "timer_db"

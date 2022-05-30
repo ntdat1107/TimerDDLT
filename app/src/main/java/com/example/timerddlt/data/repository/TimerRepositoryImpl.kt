@@ -1,16 +1,13 @@
 package com.example.timerddlt.data.repository
 import android.content.Context
-import com.example.timerddlt.data.data_source.NextEventDao
 import com.example.timerddlt.data.data_source.TimerDao
 import com.example.timerddlt.data.data_source.TimerDatabase
 import com.example.timerddlt.domain.model.Event
-import com.example.timerddlt.domain.model.NextEvent
 import com.example.timerddlt.domain.repository.TimerRepository
 import kotlinx.coroutines.flow.Flow
 
 class TimerRepositoryImpl (
-    private val timerDao : TimerDao,
-    private val nextEventDao : NextEventDao
+    private val timerDao : TimerDao
 ) : TimerRepository {
 
     override fun getEvents(): Flow<List<Event>> {
@@ -29,46 +26,10 @@ class TimerRepositoryImpl (
         timerDao.deleteEvent(event)
     }
 
-
-    //________________________________________________________________________
-
-
-
-    override suspend fun getNextEvents(): Flow<List<NextEvent>> {
-        return nextEventDao.getEvents()
-    }
-
-//    override suspend fun getNextEventByMonth(month : Int): Flow<List<NextEvent>> {
-//        return nextEventDao.getEventsByMonth(month)
-//    }
-
-    override suspend fun getNextEventById(id: Int): NextEvent? {
-        return nextEventDao.getNextEventById(id)
-    }
-
-    override suspend fun insertNextEvent(event: NextEvent) {
-        nextEventDao.insertNextEvent(event)
-    }
-
-    override suspend fun deleteNextEvent(event: NextEvent) {
-        nextEventDao.deleteNextEvent(event)
-    }
-
-//    override suspend fun getNextEventByDay(date : Int): Flow<List<NextEvent>> {
-//        return nextEventDao.getEventsByDate(date)
-//    }
-
-
-    //________________________________________________________________________
-
-
     companion object {
         fun provideTimerRepositoryImpl(context : Context): TimerRepository {
-            val timerDB = TimerDatabase.provideNoteDatabase(context.applicationContext)
-            return TimerRepositoryImpl(
-                timerDB.useTimerDao(),
-                timerDB.useNextEventDao()
-            )
+            val timerDB = TimerDatabase.provideNoteDatabase(context)
+            return TimerRepositoryImpl(timerDB.useTimerDao())
         }
     }
 }

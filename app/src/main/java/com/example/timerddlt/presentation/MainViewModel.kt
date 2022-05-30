@@ -6,7 +6,6 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.timerddlt.domain.model.Event
 import com.example.timerddlt.domain.repository.TimerRepository
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -19,7 +18,7 @@ class MainViewModel (
 
     private var getEventsJob: Job? = null
 
-    fun addEvent(event: Event)  = GlobalScope.launch {
+    fun addEvent(event: Event)  = viewModelScope.launch {
         eventsUseCases.insertEvent(event)
     }
 
