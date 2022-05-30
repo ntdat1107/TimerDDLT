@@ -7,5 +7,6 @@ data class Event(
     val description: String,
     val lasting: Int,
     val startTime: Int,
+    val endTime: Int,
     @PrimaryKey val id: Int? = null
 )
