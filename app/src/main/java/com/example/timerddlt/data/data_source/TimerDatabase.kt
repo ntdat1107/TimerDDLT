@@ -5,10 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.timerddlt.domain.model.Event
+import com.example.timerddlt.domain.model.NextEvent
 
 
 @Database(
-    entities = [Event::class],
+    entities = [Event::class, NextEvent::class],
     version = 1
 )
 abstract class TimerDatabase : RoomDatabase() {
