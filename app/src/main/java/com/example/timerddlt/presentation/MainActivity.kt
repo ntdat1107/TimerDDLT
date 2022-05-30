@@ -1,27 +1,17 @@
 package com.example.timerddlt.presentation
 
 import android.annotation.SuppressLint
-<<<<<<< HEAD
 import android.app.AlarmManager
 import android.app.Dialog
 import android.app.Notification
 import android.app.PendingIntent
-=======
-import android.app.*
->>>>>>> tiendat
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-<<<<<<< HEAD
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-=======
-import android.media.RingtoneManager
-import android.os.Bundle
-import android.os.Handler
->>>>>>> tiendat
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -36,7 +26,6 @@ import com.example.timerddlt.data.repository.TimerRepositoryImpl
 import com.example.timerddlt.databinding.ActivityMainBinding
 import com.example.timerddlt.databinding.TimePickerDialogBinding
 import com.example.timerddlt.domain.model.Event
-<<<<<<< HEAD
 import com.example.timerddlt.domain.repository.TimerRepository
 import com.example.timerddlt.services.BroadcastService
 import com.example.timerddlt.services.NoticeReceiver
@@ -45,11 +34,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-=======
-import com.example.timerddlt.services.BroadcastService
-import com.example.timerddlt.services.NoticeReceiver
-import com.google.android.material.navigation.NavigationView
->>>>>>> tiendat
 import kotlin.math.abs
 import kotlin.math.ceil
 
@@ -65,21 +49,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var mTimeInMilis: Long = 600000
     var millisUntilFinished: Long = mTimeInMilis
 
-<<<<<<< HEAD
     private lateinit var timerRepositoryImpl : TimerRepository
     private lateinit var vm : MainViewModel
 
-=======
-
-    private lateinit var timerRepositoryImpl: TimerRepositoryImpl
->>>>>>> tiendat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
-<<<<<<< HEAD
 
         timerRepositoryImpl = TimerRepositoryImpl.provideTimerRepositoryImpl(applicationContext)
         vm = MainViewModel(timerRepositoryImpl)
@@ -135,40 +113,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             setUpSideBar()
         }
 
-=======
-        val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
-        mTimeInMilis = prefs.getLong("millisLeft", 600000)
-        state = prefs.getInt("timerRunning", 0)
-        val mEndTime = prefs.getLong("endTime", 0)
-        val editor = prefs.edit()
-        if (state != 0) {
-            val timeDiff: Long = abs(mEndTime - System.currentTimeMillis())
-            val remainingTimeInMillis: Long = mTimeInMilis - timeDiff
-            if (remainingTimeInMillis > 4000) {
-                binding?.etTag!!.setText(prefs.getString("tag", "Study"))
-                binding?.etDescription!!.setText(prefs.getString("description", "Nothing"))
-                editor.putLong("remainingTimeInMillis", remainingTimeInMillis - 2750)
-                editor.apply()
-                intentService = Intent(this, BroadcastService::class.java)
-                startTimer()
-                startService(intentService)
-
-            } else {
-                // Check if it finish
-                state = 0
-                editor.putInt("timerRunning", state)
-                editor.apply()
-
-                //_________________________________________________
-                updateDatabase()
-                //_________________________________________________
-                startActivity(Intent(this, FinishActivity::class.java))
-            }
-        } else {
-            setUpSideBar()
-        }
-
->>>>>>> tiendat
 
 
         binding?.btnStart!!.setOnClickListener {
@@ -190,14 +134,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 ),
                 currentTimeInMillis + mTimeInMilis
             )
-<<<<<<< HEAD
-=======
-
-            editor.putLong("start-time-of-mission", currentTimeInMillis)
-            editor.putLong("end-time-of-mission", currentTimeInMillis + mTimeInMilis)
-            editor.putLong("last-time-of-mission", mTimeInMilis)
-            editor.apply()
->>>>>>> tiendat
         }
 
         binding?.btnPause!!.setOnClickListener {
@@ -225,12 +161,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             val timeNotify: Long = currentTimeInMillis + mTimeInMilis
             alarmManager!!.set(AlarmManager.RTC_WAKEUP, timeNotify, pendingIntent)
-<<<<<<< HEAD
-=======
-
-            editor.putLong("end-time-of-mission", timeNotify)
-            editor.apply()
->>>>>>> tiendat
         }
 
         binding?.iconEdit!!.setOnClickListener {
@@ -274,15 +204,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 drawerLayout!!.close()
             }
             state == 1 || state == 2 -> {
-<<<<<<< HEAD
 
-=======
-                Toast.makeText(
-                    this,
-                    "Timer is running, can't back, click pause button to navigation",
-                    Toast.LENGTH_SHORT
-                ).show()
->>>>>>> tiendat
             }
             else -> {
                 super.onBackPressed()
@@ -294,9 +216,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.nav_timeline -> {
                 startActivity(Intent(this, TimelineActivity::class.java))
-            }
-            R.id.nav_schedule -> {
-                startActivity(Intent(this, ScheduleActivity::class.java))
             }
         }
         drawerLayout!!.close()
@@ -345,10 +264,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
         val editor = prefs.edit()
         val isFinished = prefs.getBoolean("finished", false)
-<<<<<<< HEAD
         Log.i("test", isFinished.toString())
-=======
->>>>>>> tiendat
         if (state == 0) {
             setUpSideBar()
         }
@@ -409,41 +325,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 editor.putInt("timerRunning", state)
                 editor.putBoolean("finished", true)
                 editor.apply()
-<<<<<<< HEAD
-=======
-                updateDatabase()
->>>>>>> tiendat
                 startActivity(Intent(this, FinishActivity::class.java))
             }
         }
     }
 
-<<<<<<< HEAD
-=======
-    private fun updateDatabase() {
-        val prefs = getSharedPreferences("pref", MODE_PRIVATE)
-        val title = binding?.etTag!!.text
-        val description = binding?.etDescription!!.text!!
-        val lasting = prefs.getLong("last-time-of-mission", 0)
-        val startTime = prefs.getLong("start-time-of-mission", 0)
-        val endTime = prefs.getLong("end-time-of-mission", 0)
-        val id = 1
-        val isSuccess = prefs.getBoolean("isSuccess", true)
-
-        val event = Event(
-            title.toString(),
-            description.toString(),
-            lasting,
-            startTime,
-            endTime,
-            isSuccess,
-            id
-        )
-
-
-    }
-
->>>>>>> tiendat
 
     private fun startTimer() {
         state = 1
@@ -492,7 +378,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding?.toolbarHome!!.setNavigationIcon(R.drawable.ic_back)
         binding?.toolbarHome!!.setNavigationOnClickListener {
-<<<<<<< HEAD
             binding?.iconEdit!!.visibility = View.VISIBLE
             binding?.etDescription!!.isEnabled = true
             setUpSideBar()
@@ -509,38 +394,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             editor.putInt("timerRunning", state)
             editor.apply()
             stopService(intentService)
-=======
-            AlertDialog.Builder(this).setTitle("Give up")
-                .setMessage("Are you sure to give up this mission")
-                .setPositiveButton("Yes") { dialog, _ ->
-                    dialog.dismiss()
-                    binding?.iconEdit!!.visibility = View.VISIBLE
-                    binding?.etDescription!!.isEnabled = true
-                    setUpSideBar()
-                    binding?.btnContinue!!.visibility = View.GONE
-                    binding?.btnContinue!!.isEnabled = false
-                    binding?.btnStart!!.visibility = View.VISIBLE
-                    Handler().postDelayed({
-                        binding?.btnStart!!.setBackgroundResource(R.drawable.button_background_pause)
-                        binding?.btnStart!!.isEnabled = true
-                    }, 1500)
-                    val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
-                    val editor = prefs.edit()
-                    state = 0
-                    editor.putInt("timerRunning", state)
-                    editor.putLong("end-time-of-mission", System.currentTimeMillis())
-                    editor.apply()
-                    stopService(intentService)
-                    val intentFail = Intent(this, FinishActivity::class.java).apply {
-                        putExtra("isSuccess", false)
-                    }
-                    startActivity(intentFail)
-                }
-                .setNegativeButton("No") { dialog, _ ->
-                    dialog.dismiss()
-                }.show()
-
->>>>>>> tiendat
         }
     }
 
@@ -564,7 +417,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     @SuppressLint("LaunchActivityFromNotification")
     private fun getNotification(content: String): Notification {
-<<<<<<< HEAD
         val tempIntent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -574,23 +426,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             tempIntent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
-=======
-        val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
->>>>>>> tiendat
         val builder = NotificationCompat.Builder(this, "notify-timer")
             .setSmallIcon(R.drawable.ic_diamond)
             .setContentTitle("Congratulation")
             .setContentText(content)
-<<<<<<< HEAD
 //            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
             .setChannelId("10001")
-=======
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setAutoCancel(true)
-            .setChannelId("10001")
-            .setSound(uri)
->>>>>>> tiendat
         return builder.build()
     }
 }
