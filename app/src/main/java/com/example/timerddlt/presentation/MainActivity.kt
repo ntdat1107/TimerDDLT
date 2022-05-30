@@ -1,10 +1,7 @@
 package com.example.timerddlt.presentation
 
 import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.app.Dialog
-import android.app.Notification
-import android.app.PendingIntent
+import android.app.*
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -12,7 +9,6 @@ import android.content.IntentFilter
 import android.media.RingtoneManager
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -45,7 +41,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     var millisUntilFinished: Long = mTimeInMilis
 
 
-    private lateinit var timerRepositoryImpl : TimerRepositoryImpl
+    private lateinit var timerRepositoryImpl: TimerRepositoryImpl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,28 +72,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 editor.apply()
 
                 //_________________________________________________
-                
-
-
-                val title = "a"
-                val description = "a"
-                val lasting = 1
-                val startTime = 1
-                val endTime = 1
-                val id = 1
-
-                val event = Event(
-                    title,
-                    description,
-                    lasting,
-                    startTime,
-                    endTime,
-                    id
-                )
-
-
-
-
+                updateDatabase()
                 //_________________________________________________
                 startActivity(Intent(this, FinishActivity::class.java))
             }
@@ -126,6 +101,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 ),
                 currentTimeInMillis + mTimeInMilis
             )
+
+            editor.putLong("start-time-of-mission", currentTimeInMillis)
+            editor.putLong("end-time-of-mission", currentTimeInMillis + mTimeInMilis)
+            editor.putLong("last-time-of-mission", mTimeInMilis)
+            editor.apply()
         }
 
         binding?.btnPause!!.setOnClickListener {
@@ -153,6 +133,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             val timeNotify: Long = currentTimeInMillis + mTimeInMilis
             alarmManager!!.set(AlarmManager.RTC_WAKEUP, timeNotify, pendingIntent)
+
+            editor.putLong("end-time-of-mission", timeNotify)
+            editor.apply()
         }
 
         binding?.iconEdit!!.setOnClickListener {
@@ -323,9 +306,33 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 editor.putInt("timerRunning", state)
                 editor.putBoolean("finished", true)
                 editor.apply()
+                updateDatabase()
                 startActivity(Intent(this, FinishActivity::class.java))
             }
         }
+    }
+
+    private fun updateDatabase() {
+        val prefs = getSharedPreferences("pref", MODE_PRIVATE)
+        val title = binding?.etTag!!.text
+        val description = binding?.etDescription!!.text!!
+        val lasting = prefs.getLong("last-time-of-mission", 0)
+        val startTime = prefs.getLong("start-time-of-mission", 0)
+        val endTime = prefs.getLong("end-time-of-mission", 0)
+        val id = 1
+        val isSuccess = prefs.getBoolean("isSuccess", true)
+
+        val event = Event(
+            title.toString(),
+            description.toString(),
+            lasting,
+            startTime,
+            endTime,
+            isSuccess,
+            id
+        )
+
+
     }
 
 
@@ -376,22 +383,36 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding?.toolbarHome!!.setNavigationIcon(R.drawable.ic_back)
         binding?.toolbarHome!!.setNavigationOnClickListener {
-            binding?.iconEdit!!.visibility = View.VISIBLE
-            binding?.etDescription!!.isEnabled = true
-            setUpSideBar()
-            binding?.btnContinue!!.visibility = View.GONE
-            binding?.btnContinue!!.isEnabled = false
-            binding?.btnStart!!.visibility = View.VISIBLE
-            Handler().postDelayed({
-                binding?.btnStart!!.setBackgroundResource(R.drawable.button_background_pause)
-                binding?.btnStart!!.isEnabled = true
-            }, 1500)
-            val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
-            val editor = prefs.edit()
-            state = 0
-            editor.putInt("timerRunning", state)
-            editor.apply()
-            stopService(intentService)
+            AlertDialog.Builder(this).setTitle("Give up")
+                .setMessage("Are you sure to give up this mission")
+                .setPositiveButton("Yes") { dialog, _ ->
+                    dialog.dismiss()
+                    binding?.iconEdit!!.visibility = View.VISIBLE
+                    binding?.etDescription!!.isEnabled = true
+                    setUpSideBar()
+                    binding?.btnContinue!!.visibility = View.GONE
+                    binding?.btnContinue!!.isEnabled = false
+                    binding?.btnStart!!.visibility = View.VISIBLE
+                    Handler().postDelayed({
+                        binding?.btnStart!!.setBackgroundResource(R.drawable.button_background_pause)
+                        binding?.btnStart!!.isEnabled = true
+                    }, 1500)
+                    val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
+                    val editor = prefs.edit()
+                    state = 0
+                    editor.putInt("timerRunning", state)
+                    editor.putLong("end-time-of-mission", System.currentTimeMillis())
+                    editor.apply()
+                    stopService(intentService)
+                    val intentFail = Intent(this, FinishActivity::class.java).apply {
+                        putExtra("isSuccess", false)
+                    }
+                    startActivity(intentFail)
+                }
+                .setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }.show()
+
         }
     }
 

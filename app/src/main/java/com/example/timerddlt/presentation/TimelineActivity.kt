@@ -20,9 +20,9 @@ class TimelineActivity : AppCompatActivity() {
         }
 
         val timelines: ArrayList<Event> = ArrayList()
-        timelines.add(Event("1", "2", 3, 4))
-        timelines.add(Event("1", "2", 3, 4))
-        timelines.add(Event("1", "2", 3, 4))
+        timelines.add(Event("1", "2", 3, 4, 5, true))
+        timelines.add(Event("1", "2", 3, 4, 5, true))
+        timelines.add(Event("1", "2", 3, 4, 5, false))
 
         val timelineAdapter = TimelineAdapter(this, timelines)
         binding?.rvTimeline!!.adapter = timelineAdapter

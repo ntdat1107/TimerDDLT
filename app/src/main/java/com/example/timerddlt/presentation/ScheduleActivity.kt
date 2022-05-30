@@ -25,11 +25,10 @@ import java.util.*
 
 class ScheduleActivity : AppCompatActivity() {
     private var binding: ActivityScheduleBinding? = null
+
     private var year: Int = 0
     private var month: Int = 0
     private var dayOfMonth: Int = 0
-    private var currentRequestCode: Int = 0
-    private lateinit var prefs: SharedPreferences
 
     @SuppressLint("UnspecifiedImmutableFlag")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,9 +40,6 @@ class ScheduleActivity : AppCompatActivity() {
         binding?.toolbarSchedule!!.setNavigationOnClickListener {
             onBackPressed()
         }
-
-        prefs = getSharedPreferences("prefs", MODE_PRIVATE)
-        currentRequestCode = prefs.getInt("current-request-code", 0)
 
         binding?.simpleCalendarView!!.setDate(System.currentTimeMillis(), true, true)
         val calendar = Calendar.getInstance()
@@ -91,73 +87,11 @@ class ScheduleActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.btn_add -> {
-                addSchedule()
+                startActivity(Intent(this, CreateSchedule::class.java))
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun addSchedule() {
-        val calendar = Calendar.getInstance()
-        val hour = calendar.get(Calendar.HOUR_OF_DAY)
-        val minutes = calendar.get(Calendar.MINUTE)
-        val mTimePicker = TimePickerDialog(
-            this,
-            { _, hourOfDay, minute ->
-                calendar.set(
-                    year,
-                    month,
-                    dayOfMonth,
-                    hourOfDay,
-                    minute, 0
-                )
-                scheduleNotification(
-                    getNotification("Dậy đi ông cháu ơi!!"),
-                    calendar.timeInMillis,
-                    currentRequestCode
-                )
-                currentRequestCode += 1
-                val editor = prefs.edit()
-                editor.putInt("current-request-code", currentRequestCode)
-                editor.apply()
-            }, hour, minutes, true
-        )
-        mTimePicker.show()
-    }
 
-    @SuppressLint("UnspecifiedImmutableFlag")
-    private fun scheduleNotification(
-        notification: Notification,
-        alarmTimeInMillis: Long,
-        requestCode: Int
-    ) {
-        val notificationIntent = Intent(this, ScheduleReceiver::class.java)
-        notificationIntent.putExtra(ScheduleReceiver.NOTIFICATION_ID, requestCode)
-        notificationIntent.putExtra(ScheduleReceiver.NOTIFICATION, notification)
-
-        val pendingIntent = PendingIntent.getBroadcast(
-            this,
-            requestCode,
-            notificationIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
-
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTimeInMillis, pendingIntent)
-
-    }
-
-    @SuppressLint("LaunchActivityFromNotification")
-    private fun getNotification(content: String): Notification {
-        val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val builder = NotificationCompat.Builder(this, "notify-schedule")
-            .setSmallIcon(R.drawable.ic_diamond)
-            .setContentTitle("Notice")
-            .setContentText(content)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setAutoCancel(true)
-            .setChannelId("10002")
-            .setSound(uri)
-        return builder.build()
-    }
 }

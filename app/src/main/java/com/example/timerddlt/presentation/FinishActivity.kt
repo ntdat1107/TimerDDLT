@@ -14,5 +14,12 @@ class FinishActivity : AppCompatActivity() {
         editor.putInt("timerRunning", 0)
         editor.apply()
 
+        val isSuccess = intent.getBooleanExtra("isSuccess", true)
+        if (!isSuccess) {
+
+        } else {
+
+        }
+
     }
 }
