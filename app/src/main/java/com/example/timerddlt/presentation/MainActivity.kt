@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.media.MediaPlayer
 import android.media.RingtoneManager
 import android.os.Bundle
 import android.os.Handler
@@ -46,12 +47,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var timerRepositoryImpl : TimerRepository
     private lateinit var vm : MainViewModel
 
+    private lateinit var mp: MediaPlayer;
+    private var totalTime: Int = 0;
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
+
+        /////////
+        val musicname = "phutbandau"
+        mp = MediaPlayer.create(this, resources.getIdentifier(musicname, "raw", packageName))
+        mp.isLooping = true
+//        mp.setVolume(0.5f, 0.5f)
+        mp.start()
+        mp.pause()
+        totalTime = mp.duration
+        ////////
 
         timerRepositoryImpl = TimerRepositoryImpl.provideTimerRepositoryImpl(applicationContext)
         vm = MainViewModel(timerRepositoryImpl)
@@ -496,4 +512,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .setSound(uri)
         return builder.build()
     }
+
+    fun playBtnClick(view: View) {
+        if (mp.isPlaying) {
+            //Stop
+            mp.pause()
+            val button = binding?.ivMusic!!
+            button.setImageResource(R.drawable.ic_music_off)
+        } else {
+            //Start
+            mp.start()
+            val button = binding?.ivMusic!!
+            button.setImageResource(R.drawable.ic_music_on)
+        }
+    }
+
 }
