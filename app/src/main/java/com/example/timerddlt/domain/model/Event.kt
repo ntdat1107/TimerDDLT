@@ -5,8 +5,8 @@ import androidx.room.*
 data class Event(
     val title: String,
     val description: String,
-    val lasting: Int,
-    val startTime: Int,
-    val endTime: Int,
+    val lasting: Long,
+    val startTime: Long,
+    val endTime: Long,
     @PrimaryKey val id: Int? = null
 )

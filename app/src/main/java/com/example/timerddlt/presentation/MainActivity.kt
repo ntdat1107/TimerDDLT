@@ -28,6 +28,9 @@ import com.example.timerddlt.domain.model.Event
 import com.example.timerddlt.services.BroadcastService
 import com.example.timerddlt.services.NoticeReceiver
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.ceil
 
@@ -44,7 +47,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     var millisUntilFinished: Long = mTimeInMilis
 
 
-    private lateinit var timerRepositoryImpl : TimerRepositoryImpl
+//    private val timerRepositoryImpl = TimerRepositoryImpl.provideTimerRepositoryImpl(applicationContext)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,25 +79,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 editor.apply()
 
                 //_________________________________________________
-                
-
-
-                val title = "a"
-                val description = "a"
-                val lasting = 1
-                val startTime = 1
-                val endTime = 1
-                val id = 1
 
                 val event = Event(
-                    title,
-                    description,
-                    lasting,
-                    startTime,
-                    endTime,
-                    id
+                    title = "a",
+                    description = "a",
+                    lasting = 1L,
+                    startTime = 1L,
+                    endTime = 1L,
                 )
 
+//                GlobalScope.launch {
+//                    timerRepositoryImpl.insertEvent(event)
+//                }
 
 
 
