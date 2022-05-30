@@ -22,8 +22,10 @@ import androidx.core.app.NotificationCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.timerddlt.R
+import com.example.timerddlt.data.repository.TimerRepositoryImpl
 import com.example.timerddlt.databinding.ActivityMainBinding
 import com.example.timerddlt.databinding.TimePickerDialogBinding
+import com.example.timerddlt.domain.model.Event
 import com.example.timerddlt.services.BroadcastService
 import com.example.timerddlt.services.NoticeReceiver
 import com.google.android.material.navigation.NavigationView
@@ -41,6 +43,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var intentService: Intent? = null
     private var mTimeInMilis: Long = 600000
     var millisUntilFinished: Long = mTimeInMilis
+
+
+    private lateinit var timerRepositoryImpl : TimerRepositoryImpl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +74,31 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 state = 0
                 editor.putInt("timerRunning", state)
                 editor.apply()
+
+                //_________________________________________________
+                
+
+
+                val title = "a"
+                val description = "a"
+                val lasting = 1
+                val startTime = 1
+                val endTime = 1
+                val id = 1
+
+                val event = Event(
+                    title,
+                    description,
+                    lasting,
+                    startTime,
+                    endTime,
+                    id
+                )
+
+
+
+
+                //_________________________________________________
                 startActivity(Intent(this, FinishActivity::class.java))
             }
         } else {
