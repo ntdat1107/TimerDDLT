@@ -1,12 +1,4 @@
 <resources>
-
-    <string-array name="tags">
-        <item>Study</item>
-        <item>Game</item>
-        <item>Sport</item>
-        <item>Relax</item>
-    </string-array>
-
     <string name="app_name">TimerDDLT</string>
     <string name="homepage">Home Page</string>
     <string name="timeline">Timeline</string>

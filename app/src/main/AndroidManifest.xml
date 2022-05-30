@@ -10,11 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TimerDDLT">
         <activity
-            android:name=".presentation.StatisticActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.TimerDDLT.NoActionBar" />
-        <activity
             android:name=".presentation.FailActivity"
             android:exported="true"
             android:screenOrientation="portrait"
