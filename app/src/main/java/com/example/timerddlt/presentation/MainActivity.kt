@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         // music
         var musicname = "phutbandau"
-        mp = MediaPlayer.create(this, getResources().getIdentifier(musicname,"raw",getPackageName()))
+        mp = MediaPlayer.create(this, resources.getIdentifier(musicname,"raw", packageName))
         mp.isLooping = true
 //        mp.setVolume(0.5f, 0.5f)
         mp.start()
