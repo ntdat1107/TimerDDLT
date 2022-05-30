@@ -78,6 +78,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //_________________________________________________
                 
 
+
                 val title = "a"
                 val description = "a"
                 val lasting = 1
