@@ -11,6 +11,7 @@ import android.media.RingtoneManager
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -49,8 +50,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
     ///////////
-    private lateinit var mp: MediaPlayer;
-    private var totalTime: Int = 0;
+    private lateinit var mp: MediaPlayer
+    private var totalTime: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,12 +60,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(binding?.root)
 
         /////////
-        val musicname = "phutbandau"
-        mp = MediaPlayer.create(this, resources.getIdentifier(musicname, "raw", packageName))
+        var musicname = "phutbandau"
+        binding?.tvMusicName!!.text = musicname
+
+        mp = MediaPlayer.create(
+            this,
+            resources.getIdentifier(musicname, "raw", packageName)
+        )
+        Log.i("test", mp.toString())
         mp.isLooping = true
 //        mp.setVolume(0.5f, 0.5f)
-        mp.start()
-        mp.pause()
         totalTime = mp.duration
         ////////
 
@@ -251,6 +256,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun setUpSideBar() {
+        binding?.llMusic!!.visibility = View.GONE
         drawerLayout = binding?.drawerLayout!!
         navigationView = binding?.navView!!
         setSupportActionBar(binding?.toolbarHome!!)
@@ -357,6 +363,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             if (intent.getIntExtra("finish", 0) == 1) {
                 stopService(intentService)
+
+                if (mp.isPlaying) {
+                    mp.stop()
+                    binding?.ivMusic!!.setImageResource(R.drawable.ic_music_off)
+                }
+
                 state = 0
                 val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
                 val editor = prefs.edit()
@@ -390,6 +402,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             isSuccess,
             id
         )
+
+//        vm.addEvent(event)
     }
 
 
@@ -399,6 +413,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding?.toolbarHome!!.navigationIcon = null
         binding?.tvTitleMargin!!.visibility = View.GONE
         binding?.tvTitleNoMargin!!.visibility = View.VISIBLE
+
+        binding?.llMusic!!.visibility = View.VISIBLE
 
         binding?.btnStart!!.visibility = View.GONE
         binding?.btnStart!!.isEnabled = false
@@ -433,6 +449,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }, 1500)
         binding?.btnPause!!.visibility = View.GONE
         binding?.btnPause!!.isEnabled = false
+
+        binding?.llMusic!!.visibility = View.GONE
+        if (mp.isPlaying) {
+            mp.pause()
+            binding?.ivMusic!!.setImageResource(R.drawable.ic_music_off)
+        }
 
         binding?.tvTitleMargin!!.visibility = View.VISIBLE
         binding?.tvTitleNoMargin!!.visibility = View.GONE
@@ -515,13 +537,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (mp.isPlaying) {
             //Stop
             mp.pause()
-            val button = binding?.ivMusic!!
-            button.setImageResource(R.drawable.ic_music_off)
+            binding?.ivMusic!!.setImageResource(R.drawable.ic_music_off)
         } else {
             //Start
             mp.start()
-            val button = binding?.ivMusic!!
-            button.setImageResource(R.drawable.ic_music_on)
+            binding?.ivMusic!!.setImageResource(R.drawable.ic_music_on)
         }
     }
 }
