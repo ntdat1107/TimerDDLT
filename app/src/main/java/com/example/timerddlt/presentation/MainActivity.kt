@@ -410,14 +410,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun updateDatabase(isSuccess: Boolean) {
         val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
-        val title = binding?.tvTag!!.text
-        val description = binding?.etDescription!!.text!!
+        val title = prefs.getString("tag", "")
+        val description = prefs.getString("description", "")
         val lasting = prefs.getLong("last-time-of-mission", 0)
         val startTime = prefs.getLong("start-time-of-mission", 0)
         val endTime = prefs.getLong("end-time-of-mission", 0)
 //        val id = 2
-
-        Log.i("test", lasting.toString())
 
         val event = Event(
             title.toString(),

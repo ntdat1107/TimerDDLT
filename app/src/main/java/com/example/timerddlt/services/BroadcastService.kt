@@ -30,13 +30,11 @@ class BroadcastService : Service() {
             }
 
             override fun onFinish() {
-                Log.i("testOnTick", "0")
                 intent.putExtra("countdown", 0)
                 sendBroadcast(intent)
                 intent.putExtra("finish", 1)
                 sendBroadcast(intent)
             }
-
         }.start()
     }
 
