@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timerddlt.databinding.ItemScheduleBinding
-import com.example.timerddlt.domain.model.Event
+import com.example.timerddlt.domain.model.NextEvent
 
-class ScheduleAdapter(private var context: Context, private var schedules: ArrayList<Event>) :
+class ScheduleAdapter(private var context: Context, private var schedules: ArrayList<NextEvent>) :
     RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
     class ViewHolder(val binding: ItemScheduleBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -16,7 +16,7 @@ class ScheduleAdapter(private var context: Context, private var schedules: Array
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val schedule: Event = schedules[position]
+        val schedule: NextEvent = schedules[position]
         holder.binding.tvTime.text = schedule.startTime.toString()
         holder.binding.tvDescription.text = schedule.description
     }

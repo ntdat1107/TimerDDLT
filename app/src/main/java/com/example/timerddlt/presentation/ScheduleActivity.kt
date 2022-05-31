@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -13,9 +14,8 @@ import com.example.timerddlt.R
 import com.example.timerddlt.adapter.ScheduleAdapter
 import com.example.timerddlt.data.repository.TimerRepositoryImpl
 import com.example.timerddlt.databinding.ActivityScheduleBinding
-import com.example.timerddlt.domain.model.Event
+import com.example.timerddlt.domain.model.NextEvent
 import com.example.timerddlt.domain.repository.TimerRepository
-import kotlinx.coroutines.Job
 import java.util.*
 
 class ScheduleActivity : AppCompatActivity() {
@@ -57,16 +57,24 @@ class ScheduleActivity : AppCompatActivity() {
             dayOfMonth = mDayOfMonth
 
             // Reload schedule
-            val schedulesList = vm.getEventsByDate(calendar.timeInMillis.toInt())
+            vm.getEventsByDateHelper(calendar.timeInMillis)
             Handler().postDelayed({
-                updateRv(schedulesList)
-            }, 1500)
+                val scheduleList = vm.getEventsByDateResult()
+            }, 500)
         }
 
-        val schedulesList = vm.getEventsByDate(calendar.timeInMillis.toInt())
+        vm.getEventsByDateHelper(calendar.timeInMillis)
+        Log.i("test", "pre")
         Handler().postDelayed({
-            updateRv(schedulesList)
-        }, 1500)
+            val scheduleList = vm.getEventsByDateResult()
+            Log.i("test", "success")
+            Log.i("test", scheduleList.toString())
+            for (i in scheduleList) {
+                Log.i("test", i.description)
+            }
+            updateRv(scheduleList)
+        }, 500)
+        Log.i("test", "after")
 
 //        val notificationIntent = Intent(this, ScheduleReceiver::class.java)
 //
@@ -80,9 +88,13 @@ class ScheduleActivity : AppCompatActivity() {
 //        alarmManager.cancel(pendingIntent)
     }
 
-    private fun updateRv(schedulesList: Job) {
+    private fun updateRv(scheduleList: List<NextEvent>) {
 
-        val schedules: ArrayList<Event> = ArrayList()
+        val schedules: ArrayList<NextEvent> = ArrayList(scheduleList)
+
+        for (i in scheduleList) {
+            Log.i("test", i.description)
+        }
 
         val scheduleAdapter = ScheduleAdapter(this, schedules)
         binding?.rvSchedule!!.adapter = scheduleAdapter
