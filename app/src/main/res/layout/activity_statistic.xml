@@ -45,35 +45,24 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar_statistic">
 
         <TextView
-            android:id="@+id/day"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="10dp"
-            android:background="#A3E0E3"
-            android:gravity="center"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="10dp"
-            android:text="Day"
+            android:id="@+id/tv_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date: "
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-            android:textColor="#555555"
-            android:textSize="20sp" />
+        <ImageView
+            android:id="@+id/icon_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:contentDescription="@string/menu_icon"
+            android:src="@drawable/ic_edit"
+            app:tint="@color/black" />
 
-        <TextView
-            android:id="@+id/month"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:background="#A3E0E3"
-            android:gravity="center"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="10dp"
-            android:text="Month"
-            android:textColor="#555555"
-            android:textSize="20sp" />
     </LinearLayout>
 
     <com.github.mikephil.charting.charts.PieChart

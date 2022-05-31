@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.timerddlt.databinding.ActivityStatisticBinding
+import com.example.timerddlt.domain.model.Event
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
@@ -16,6 +17,7 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class StatisticActivity : AppCompatActivity() {
     private var binding: ActivityStatisticBinding? = null
@@ -35,20 +37,28 @@ class StatisticActivity : AppCompatActivity() {
         val calendar = Calendar.getInstance()
         var content: String = ""
 
-        binding?.day!!.setOnClickListener {
-            val yearNow = calendar.get(Calendar.YEAR)
-            val monthNow = calendar.get(Calendar.MONTH)
-            val dayNow = calendar.get(Calendar.DAY_OF_MONTH)
+        var yearNow = calendar.get(Calendar.YEAR)
+        var monthNow = calendar.get(Calendar.MONTH)
+        var dayNow = calendar.get(Calendar.DAY_OF_MONTH)
 
-            val id = Locale("en", "US")
-            val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", id)
+        val id = Locale("en", "US")
+        val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", id)
+        content = simpleDateFormat.format(calendar.time)
+        binding?.tvDay!!.text = "Date: $content"
+        loadPieChart(pieChart!!, content)
+
+        binding?.iconSelect!!.setOnClickListener {
             val datePickerDialog =
                 DatePickerDialog(
                     this,
                     { view, year, month, dayOfMonth ->
                         calendar.set(year, month, dayOfMonth)
                         content = simpleDateFormat.format(calendar.time)
-                        loadPieChart(pieChart!!, content)
+                        binding?.tvDay!!.text = "Date: $content"
+                        loadPieChart(pieChart, content)
+                        yearNow = year
+                        monthNow = month
+                        dayNow = dayOfMonth
                     }, yearNow, monthNow, dayNow
                 )
             datePickerDialog.setTitle("Select date")
@@ -60,7 +70,30 @@ class StatisticActivity : AppCompatActivity() {
 
     private fun loadPieChart(pieChart: PieChart, content: String) {
         initPieChart(pieChart)
-        setDataToPieChart(pieChart, content)
+        val dataList1: List<Event> = listOf(
+            Event("Study", "abc", 123, 234, 456, true),
+            Event("Study", "abc", 123, 234, 456, true),
+            Event("Study", "abc", 123, 234, 456, true),
+            Event("Sport", "abc", 123, 234, 456, true),
+            Event("Sport", "abc", 123, 234, 456, true),
+            Event("Relax", "abc", 123, 234, 456, true),
+            Event("Relax", "abc", 123, 234, 456, true),
+            Event("Relax", "abc", 123, 234, 456, true)
+        )
+        val dataList = ArrayList(dataList1)
+        val hashMap: HashMap<String, Float> = HashMap<String, Float>()
+        for (i in dataList) {
+            if (i.title in hashMap.keys) {
+                hashMap[i.title] = hashMap[i.title]!! + 1
+            } else {
+                hashMap[i.title] = 1F
+            }
+        }
+        for (i in hashMap.keys) {
+            hashMap[i] = (hashMap[i]!! / dataList.size * 10000).toInt().toFloat() / 100
+        }
+
+        setDataToPieChart(pieChart, hashMap, content)
     }
 
     private fun initPieChart(pieChart: PieChart) {
@@ -80,14 +113,17 @@ class StatisticActivity : AppCompatActivity() {
 
     }
 
-    private fun setDataToPieChart(pieChart: PieChart, content: String) {
+    private fun setDataToPieChart(
+        pieChart: PieChart,
+        hashMap: HashMap<String, Float>,
+        content: String
+    ) {
         pieChart.setUsePercentValues(true)
         val dataEntries = ArrayList<PieEntry>()
         // Add data here
-        dataEntries.add(PieEntry(72f, "Study"))
-        dataEntries.add(PieEntry(26f, "Game"))
-        dataEntries.add(PieEntry(2f, "Relax"))
-
+        for (i in hashMap.keys) {
+            dataEntries.add(PieEntry(hashMap[i]!!, i))
+        }
         val colors: ArrayList<Int> = ArrayList()
         colors.add(Color.parseColor("#4DD0E1"))
         colors.add(Color.parseColor("#FFF176"))
