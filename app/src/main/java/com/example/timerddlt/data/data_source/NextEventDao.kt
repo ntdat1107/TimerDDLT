@@ -9,7 +9,7 @@ interface NextEventDao {
     @Query("SELECT * FROM next_event")
     fun getEvents(): Flow<List<NextEvent>>
 
-    @Query("SELECT * FROM next_event WHERE :date > 1")
+    @Query("SELECT * FROM next_event WHERE :date > 1 ORDER BY endTime DESC")
     fun getEventsByDate(date : Int): Flow<List<NextEvent>>
 
     @Query("SELECT * FROM next_event WHERE id = :id")
