@@ -5,7 +5,7 @@ import com.example.timerddlt.domain.model.NextEvent
 import kotlinx.coroutines.flow.Flow
 
 interface TimerRepository {
-    fun getEvents() : Flow<List<Event>>
+    fun getEvents() : List<Event>
     suspend fun getEventById(id: Int) : Event?
     suspend fun insertEvent(event: Event)
     suspend fun deleteEvent(event: Event)

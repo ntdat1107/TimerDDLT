@@ -15,7 +15,7 @@ class TimerRepositoryImpl (
 
 
 
-    override fun getEvents(): Flow<List<Event>> {
+    override fun getEvents(): List<Event> {
         return timerDao.getEvents()
     }
 
