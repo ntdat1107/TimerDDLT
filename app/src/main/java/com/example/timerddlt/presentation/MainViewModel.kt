@@ -13,12 +13,6 @@ import kotlinx.coroutines.launch
 class MainViewModel (
     private val eventsUseCases: TimerRepository
 ) : ViewModel() {
-    val eventList: LiveData<List<Event>> = eventsUseCases.getEvents().asLiveData()
-
-    private var recentlyDeletedEvent: Event? = null
-
-    private var getEventsJob: Job? = null
-    
 
     // Check loi ham nay
     fun addEvent(event: Event)  = viewModelScope.launch (Dispatchers.Default){

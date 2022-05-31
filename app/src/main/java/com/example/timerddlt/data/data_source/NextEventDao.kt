@@ -9,12 +9,8 @@ interface NextEventDao {
     @Query("SELECT * FROM next_event")
     fun getEvents(): Flow<List<NextEvent>>
 
-    @Query("SELECT * FROM next_event WHERE :month > 1")
-    fun getEventsByMonth(month : Int): Flow<List<NextEvent>>
-
     @Query("SELECT * FROM next_event WHERE :date > 1")
     fun getEventsByDate(date : Int): Flow<List<NextEvent>>
-
 
     @Query("SELECT * FROM next_event WHERE id = :id")
     suspend fun getNextEventById(id: Int): NextEvent?

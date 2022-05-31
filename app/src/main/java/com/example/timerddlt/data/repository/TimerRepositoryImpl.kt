@@ -40,10 +40,6 @@ class TimerRepositoryImpl (
         return nextEventDao.getEvents()
     }
 
-    override suspend fun getNextEventByMonth(month : Int): Flow<List<NextEvent>> {
-        return nextEventDao.getEventsByMonth(month)
-    }
-
     override suspend fun getNextEventById(id: Int): NextEvent? {
         return nextEventDao.getNextEventById(id)
     }

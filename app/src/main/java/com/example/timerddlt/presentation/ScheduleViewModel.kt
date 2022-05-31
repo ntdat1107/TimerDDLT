@@ -22,10 +22,6 @@ class ScheduleViewModel (
         eventsUseCases.getNextEventById(id)
     }
 
-    fun getEventsByMonth(month: Int)  = viewModelScope.launch (Dispatchers.Default){
-        eventsUseCases.getNextEventByMonth(month)
-    }
-
     fun getEventsByDate(date: Int)  = viewModelScope.launch (Dispatchers.Default){
         eventsUseCases.getNextEventByDay(date)
     }
