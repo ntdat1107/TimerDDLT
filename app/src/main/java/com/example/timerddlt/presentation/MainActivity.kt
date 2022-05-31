@@ -51,7 +51,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     ///////////
     private lateinit var mp: MediaPlayer
-    private var totalTime: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,17 +59,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(binding?.root)
 
         /////////
-        var musicname = "phutbandau"
-        binding?.tvMusicName!!.text = musicname
-
-        mp = MediaPlayer.create(
-            this,
-            resources.getIdentifier(musicname, "raw", packageName)
-        )
-        Log.i("test", mp.toString())
-        mp.isLooping = true
 //        mp.setVolume(0.5f, 0.5f)
-        totalTime = mp.duration
         ////////
 
         timerRepositoryImpl = TimerRepositoryImpl.provideTimerRepositoryImpl(applicationContext)
@@ -110,6 +99,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else {
             setUpSideBar()
         }
+
+
+        val musicRawName = prefs.getString("rawNameMusic", "phutbandau")
+        binding?.tvMusicName!!.text = prefs.getString("nameMusic", "None")
+
+        mp = MediaPlayer.create(
+            this,
+            resources.getIdentifier(musicRawName, "raw", packageName)
+        )
+        mp.isLooping = true
 
 
 
@@ -153,6 +152,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             editor.putLong("start-time-of-mission", currentTimeInMillis)
             editor.putLong("end-time-of-mission", currentTimeInMillis + mTimeInMilis)
             editor.putLong("last-time-of-mission", mTimeInMilis)
+            editor.putString("tag", binding?.etTag!!.text.toString())
+            editor.putString("description", binding?.etDescription!!.text.toString())
             editor.apply()
         }
 
@@ -250,6 +251,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_statistic -> {
                 startActivity(Intent(this, StatisticActivity::class.java))
             }
+            R.id.nav_alarm_setting -> {
+                startActivity(Intent(this, MusicActivity::class.java))
+            }
         }
         drawerLayout!!.close()
         return true
@@ -303,15 +307,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         state = prefs.getInt("timerRunning", 0)
         if (state == 0) {
             setUpSideBar()
+        } else {
+            binding?.llMusic!!.visibility = View.VISIBLE
         }
+        val musicRawName = prefs.getString("rawNameMusic", "phutbandau")
+        binding?.tvMusicName!!.text = prefs.getString("nameMusic", "None")
+
+        mp = MediaPlayer.create(
+            this,
+            resources.getIdentifier(musicRawName, "raw", packageName)
+        )
+        mp.isLooping = true
 
         if (isFinished) {
             editor.remove("finished")
             editor.apply()
-            startActivity(Intent(this, FinishActivity::class.java).apply {
-                putExtra("tag", binding?.etTag!!.text.toString())
-                putExtra("description", binding?.etDescription!!.text.toString())
-            })
+            startActivity(Intent(this, FinishActivity::class.java))
         }
 
         super.onResume()
@@ -324,6 +335,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onStop() {
         super.onStop()
+        if (mp.isPlaying) {
+            //Stop
+            mp.pause()
+            binding?.ivMusic!!.setImageResource(R.drawable.ic_music_off)
+        }
         try {
             unregisterReceiver(broadcastReceiver)
         } catch (e: Exception) {
@@ -338,8 +354,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             editor.putLong("millisLeft", millisUntilFinished)
             editor.putInt("timerRunning", state)
             editor.putLong("endTime", System.currentTimeMillis())
-            editor.putString("tag", binding?.etTag!!.text.toString())
-            editor.putString("description", binding?.etDescription!!.text.toString())
             editor.apply()
             stopService(intentService)
         }
@@ -376,10 +390,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 editor.putBoolean("finished", true)
                 editor.apply()
                 updateDatabase(true)
-                startActivity(Intent(this, FinishActivity::class.java).apply {
-                    putExtra("tag", binding?.etTag!!.text.toString())
-                    putExtra("description", binding?.etDescription!!.text.toString())
-                })
+                startActivity(Intent(this, FinishActivity::class.java))
             }
         }
     }
@@ -488,10 +499,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                     updateDatabase(false)
 
-                    val intentFail = Intent(this, FailActivity::class.java).apply {
-                        putExtra("tag", tag)
-                        putExtra("description", desc)
-                    }
+                    val intentFail = Intent(this, FailActivity::class.java)
                     startActivity(intentFail)
                 }
                 .setNegativeButton("No") { dialog, _ ->
