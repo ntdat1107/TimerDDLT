@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private lateinit var timerRepositoryImpl: TimerRepository
     private lateinit var vm: MainViewModel
+    private lateinit var vm2: ScheduleViewModel
 
 
     ///////////
@@ -65,6 +66,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         timerRepositoryImpl = TimerRepositoryImpl.provideTimerRepositoryImpl(applicationContext)
         vm = MainViewModel(timerRepositoryImpl)
+//        vm2 = ScheduleViewModel(timerRepositoryImpl)
+
+
+//        vm2.getEventsByDateHelper(1)
+//
+//        Thread.sleep(1000)
+//        val x = vm2.getEventsByDateResult()
+//        Log.d("GetList", x.toString())
+
+//        vm.getEvents()
+//
+//        Thread.sleep(1000)
+//        val x = vm.getEventsResult()
+//        Log.d("GetList", x[0].description)
+
+
+
 
         val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
         mTimeInMilis = prefs.getLong("millisLeft", 600000)
