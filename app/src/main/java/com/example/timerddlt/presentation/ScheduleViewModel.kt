@@ -9,6 +9,7 @@ import com.example.timerddlt.domain.model.NextEvent
 import com.example.timerddlt.domain.repository.TimerRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class ScheduleViewModel (
@@ -23,8 +24,13 @@ class ScheduleViewModel (
         eventsUseCases.getNextEventById(id)
     }
 
-    fun getEventsByDate(date: Int)  = viewModelScope.launch (Dispatchers.Default){
-        eventsUseCases.getNextEventByDay(date)
+    suspend fun getEventsByDate(date: Long) : List<NextEvent> {
+        var output : List<NextEvent>? = null
+        val job: Job =  viewModelScope.launch (Dispatchers.Default){
+            output = eventsUseCases.getNextEventByDay(date)
+        }
+        job.join()
+        return output!!
     }
 
 }
