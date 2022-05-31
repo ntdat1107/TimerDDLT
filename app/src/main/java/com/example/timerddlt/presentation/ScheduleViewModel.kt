@@ -10,13 +10,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class MainViewModel (
+class ScheduleViewModel (
     private val eventsUseCases: TimerRepository
 ) : ViewModel() {
 
-    // Check loi ham nay
     fun addEvent(event: Event)  = viewModelScope.launch (Dispatchers.Default){
         eventsUseCases.insertEvent(event)
+    }
+
+    fun getEventsByID(id: Int)  = viewModelScope.launch (Dispatchers.Default){
+        eventsUseCases.getNextEventById(id)
+    }
+
+    fun getEventsByDate(date: Int)  = viewModelScope.launch (Dispatchers.Default){
+        eventsUseCases.getNextEventByDay(date)
     }
 
 }

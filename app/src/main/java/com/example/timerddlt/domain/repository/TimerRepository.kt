@@ -11,8 +11,7 @@ interface TimerRepository {
     suspend fun deleteEvent(event: Event)
 
     suspend fun getNextEvents() : Flow<List<NextEvent>>
-//    suspend fun getNextEventByMonth(month : Int) : Flow<List<NextEvent>>
-//    suspend fun getNextEventByDay(date : Int) : Flow<List<NextEvent>>
+    suspend fun getNextEventByDay(date : Int) : Flow<List<NextEvent>>
 
     suspend fun getNextEventById(id: Int) : NextEvent?
     suspend fun insertNextEvent(event: NextEvent)
