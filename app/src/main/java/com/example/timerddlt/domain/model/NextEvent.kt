@@ -9,5 +9,5 @@ data class NextEvent(
     val description: String,
     val lasting: Long,
     val startTime: Long,
-    @PrimaryKey val id: Int? = null
+    @PrimaryKey (autoGenerate = true) val id: Int? = null
 )
