@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface NextEventDao {
     @Query("SELECT * FROM next_event")
-    fun getEvents(): Flow<List<NextEvent>>
+    fun getEvents(): List<NextEvent>
 
     @Query("SELECT * FROM next_event WHERE :date > 1 ORDER BY endTime DESC")
-    fun getEventsByDate(date : Int): Flow<List<NextEvent>>
+    fun getEventsByDate(date : Int): List<NextEvent>
 
     @Query("SELECT * FROM next_event WHERE id = :id")
     suspend fun getNextEventById(id: Int): NextEvent?

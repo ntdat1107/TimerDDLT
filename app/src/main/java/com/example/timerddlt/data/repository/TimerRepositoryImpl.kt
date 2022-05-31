@@ -36,7 +36,7 @@ class TimerRepositoryImpl (
 
 
 
-    override suspend fun getNextEvents(): Flow<List<NextEvent>> {
+    override suspend fun getNextEvents(): List<NextEvent> {
         return nextEventDao.getEvents()
     }
 
@@ -52,7 +52,7 @@ class TimerRepositoryImpl (
         nextEventDao.deleteNextEvent(event)
     }
 
-    override suspend fun getNextEventByDay(date : Int): Flow<List<NextEvent>> {
+    override suspend fun getNextEventByDay(date : Int): List<NextEvent> {
         return nextEventDao.getEventsByDate(date)
     }
 
