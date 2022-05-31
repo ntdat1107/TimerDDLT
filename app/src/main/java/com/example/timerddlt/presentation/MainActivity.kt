@@ -11,7 +11,6 @@ import android.media.RingtoneManager
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -42,7 +41,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var state: Int = 0
     private var intentService: Intent? = null
     private var mTimeInMilis: Long = 600000
-    var millisUntilFinished: Long = mTimeInMilis
+    private var millisUntilFinished: Long = mTimeInMilis
+    private var checkedItem: Int = 0
 
 
     private lateinit var timerRepositoryImpl: TimerRepository
@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val timeDiff: Long = abs(mEndTime - System.currentTimeMillis())
             val remainingTimeInMillis: Long = mTimeInMilis - timeDiff
             if (remainingTimeInMillis > 4000) {
-                binding?.etTag!!.setText(prefs.getString("tag", "Study"))
+                binding?.tvTag!!.text = prefs.getString("tag", "Study")
                 binding?.etDescription!!.setText(prefs.getString("description", "Nothing"))
                 editor.putLong("remainingTimeInMillis", remainingTimeInMillis - 2750)
                 editor.apply()
@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 updateDatabase(true)
                 //_________________________________________________
                 startActivity(Intent(this, FinishActivity::class.java).apply {
-                    putExtra("tag", binding?.etTag!!.text.toString())
+                    putExtra("tag", binding?.tvTag!!.text.toString())
                     putExtra("description", binding?.etDescription!!.text.toString())
                 })
             }
@@ -117,10 +117,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Toast.makeText(this, "Please enter description", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            if (TextUtils.isEmpty(binding?.etTag!!.text.toString().trim { it <= ' ' })) {
-                Toast.makeText(this, "Please enter your mission tag", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
             mTimeInMilis = (binding?.tvTimer!!.text.toString().substring(0, 2)
                 .toLong() * 60 + binding?.tvTimer!!.text.toString().substring(3, 5).toLong()) * 1000
 
@@ -142,7 +138,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             scheduleNotification(
                 getNotification(
-                    "You've done ${binding?.etTag!!.text} in ${
+                    "You've done ${binding?.tvTag!!.text} in ${
                         binding?.tvTimer!!.text.toString().substring(0, 2)
                     }m${binding?.tvTimer!!.text.toString().substring(3, 5)}s"
                 ),
@@ -152,7 +148,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             editor.putLong("start-time-of-mission", currentTimeInMillis)
             editor.putLong("end-time-of-mission", currentTimeInMillis + mTimeInMilis)
             editor.putLong("last-time-of-mission", mTimeInMilis)
-            editor.putString("tag", binding?.etTag!!.text.toString())
+            editor.putString("tag", binding?.tvTag!!.text.toString())
             editor.putString("description", binding?.etDescription!!.text.toString())
             editor.apply()
         }
@@ -188,8 +184,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         binding?.iconEdit!!.setOnClickListener {
-            binding?.etTag!!.isEnabled = true
-            binding?.etTag!!.requestFocus()
+            // Add more tag here
+            val items = arrayOf("Study", "Sport", "Relax", "Other")
+            val mBuilder = AlertDialog.Builder(this)
+            mBuilder.setTitle("Select a tag")
+                .setSingleChoiceItems(
+                    items, checkedItem
+                ) { dialog, which ->
+                    binding?.tvTag!!.text = items[which]
+                    checkedItem = which
+                    dialog.dismiss()
+                }
+                .setNeutralButton("Cancel") { dialog, _ ->
+                    dialog.cancel()
+                }.create().show()
         }
 
         binding?.tvTimer!!.setOnClickListener {
@@ -286,9 +294,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding?.iconEdit!!.visibility = View.VISIBLE
         binding?.etDescription!!.isEnabled = true
 
-        binding?.etTag!!.isEnabled = false
-        binding?.etTag!!.setText(getString(R.string.study_tag))
+        binding?.tvTag!!.text = getString(R.string.study_tag)
         binding?.etDescription!!.text.clear()
+        checkedItem = 0
     }
 
     private val broadcastReceiver = object : BroadcastReceiver() {
@@ -397,7 +405,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun updateDatabase(isSuccess: Boolean) {
         val prefs = getSharedPreferences("pref", MODE_PRIVATE)
-        val title = binding?.etTag!!.text
+        val title = binding?.tvTag!!.text
         val description = binding?.etDescription!!.text!!
         val lasting = prefs.getLong("last-time-of-mission", 0)
         val startTime = prefs.getLong("start-time-of-mission", 0)
@@ -441,7 +449,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding?.btnContinue!!.visibility = View.GONE
         binding?.btnContinue!!.isEnabled = false
 
-        binding?.etTag!!.isEnabled = false
         binding?.etDescription!!.isEnabled = false
 
 
@@ -477,8 +484,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .setMessage("Are you sure to give up this mission")
                 .setPositiveButton("Yes") { dialog, _ ->
                     dialog.dismiss()
-                    val tag = binding?.etTag!!.text.toString()
-                    val desc = binding?.etDescription!!.text.toString()
                     binding?.iconEdit!!.visibility = View.VISIBLE
                     binding?.etDescription!!.isEnabled = true
                     setUpSideBar()

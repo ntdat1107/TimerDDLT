@@ -106,11 +106,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toolbar_home">
 
-                <EditText
-                    android:id="@+id/et_tag"
+                <TextView
+                    android:id="@+id/tv_tag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
                     android:text="@string/task"
                     android:textColor="@color/black"
                     android:textSize="32sp"
