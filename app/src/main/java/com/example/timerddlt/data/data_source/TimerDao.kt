@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TimerDao {
     @Query("SELECT * FROM event")
-    fun getEvents(): List<Event>
+    suspend fun getEvents(): List<Event>
 
     @Query("SELECT * FROM event WHERE id = :id")
     suspend fun getEventById(id: Int): Event?

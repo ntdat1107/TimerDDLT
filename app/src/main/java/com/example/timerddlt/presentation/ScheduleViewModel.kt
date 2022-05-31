@@ -15,6 +15,8 @@ class ScheduleViewModel (
     private val eventsUseCases: TimerRepository
 ) : ViewModel() {
 
+    private var noteOfDate : List<NextEvent> = emptyList()
+
     fun addEvent(event: NextEvent)  = viewModelScope.launch (Dispatchers.Default){
         eventsUseCases.insertNextEvent(event)
     }
@@ -23,8 +25,13 @@ class ScheduleViewModel (
         eventsUseCases.getNextEventById(id)
     }
 
-    fun getEventsByDate(date: Int)  = viewModelScope.launch (Dispatchers.Default){
+    fun getEventsByDateHelper(date: Long)  = viewModelScope.launch (Dispatchers.Default){
+//        noteOfDate = eventsUseCases.getNextEventByDay(date)
         eventsUseCases.getNextEventByDay(date)
+    }
+
+    fun getEventsByDateResult() : List<NextEvent> {
+        return noteOfDate
     }
 
 }
