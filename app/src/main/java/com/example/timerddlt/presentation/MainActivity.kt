@@ -6,10 +6,12 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.media.MediaPlayer
 import android.media.RingtoneManager
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -43,8 +45,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     var millisUntilFinished: Long = mTimeInMilis
 
 
-    private lateinit var timerRepositoryImpl : TimerRepository
-    private lateinit var vm : MainViewModel
+    private lateinit var timerRepositoryImpl: TimerRepository
+    private lateinit var vm: MainViewModel
+
+
+    ///////////
+    private lateinit var mp: MediaPlayer
+    private var totalTime: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +59,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
+        /////////
+        var musicname = "phutbandau"
+        binding?.tvMusicName!!.text = musicname
+
+        mp = MediaPlayer.create(
+            this,
+            resources.getIdentifier(musicname, "raw", packageName)
+        )
+        Log.i("test", mp.toString())
+        mp.isLooping = true
+//        mp.setVolume(0.5f, 0.5f)
+        totalTime = mp.duration
+        ////////
 
         timerRepositoryImpl = TimerRepositoryImpl.provideTimerRepositoryImpl(applicationContext)
         vm = MainViewModel(timerRepositoryImpl)
@@ -227,12 +247,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_schedule -> {
                 startActivity(Intent(this, ScheduleActivity::class.java))
             }
+            R.id.nav_statistic -> {
+                startActivity(Intent(this, StatisticActivity::class.java))
+            }
         }
         drawerLayout!!.close()
         return true
     }
 
     private fun setUpSideBar() {
+        binding?.llMusic!!.visibility = View.GONE
         drawerLayout = binding?.drawerLayout!!
         navigationView = binding?.navView!!
         setSupportActionBar(binding?.toolbarHome!!)
@@ -339,6 +363,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             if (intent.getIntExtra("finish", 0) == 1) {
                 stopService(intentService)
+
+                if (mp.isPlaying) {
+                    mp.stop()
+                    binding?.ivMusic!!.setImageResource(R.drawable.ic_music_off)
+                }
+
                 state = 0
                 val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
                 val editor = prefs.edit()
@@ -374,8 +404,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         )
 
 //        vm.addEvent(event)
-
-
     }
 
 
@@ -385,6 +413,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding?.toolbarHome!!.navigationIcon = null
         binding?.tvTitleMargin!!.visibility = View.GONE
         binding?.tvTitleNoMargin!!.visibility = View.VISIBLE
+
+        binding?.llMusic!!.visibility = View.VISIBLE
 
         binding?.btnStart!!.visibility = View.GONE
         binding?.btnStart!!.isEnabled = false
@@ -419,6 +449,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }, 1500)
         binding?.btnPause!!.visibility = View.GONE
         binding?.btnPause!!.isEnabled = false
+
+        binding?.llMusic!!.visibility = View.GONE
+        if (mp.isPlaying) {
+            mp.pause()
+            binding?.ivMusic!!.setImageResource(R.drawable.ic_music_off)
+        }
 
         binding?.tvTitleMargin!!.visibility = View.VISIBLE
         binding?.tvTitleNoMargin!!.visibility = View.GONE
@@ -495,5 +531,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .setChannelId("10001")
             .setSound(uri)
         return builder.build()
+    }
+
+    fun playBtnClick(view: View) {
+        if (mp.isPlaying) {
+            //Stop
+            mp.pause()
+            binding?.ivMusic!!.setImageResource(R.drawable.ic_music_off)
+        } else {
+            //Start
+            mp.start()
+            binding?.ivMusic!!.setImageResource(R.drawable.ic_music_on)
+        }
     }
 }
