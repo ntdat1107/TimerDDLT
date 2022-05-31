@@ -16,18 +16,30 @@ class MainViewModel (
 ) : ViewModel() {
 
     private var events : List<Event> = emptyList()
+    private var noteOfDate : List<Event> = emptyList()
 
-    // Check loi ham nay
     fun addEvent(event: Event)  = viewModelScope.launch (Dispatchers.Default){
         eventsUseCases.insertEvent(event)
     }
 
+
+    //Get all events
     fun getEvents()  = viewModelScope.launch (Dispatchers.Default){
         events = eventsUseCases.getEvents()
     }
 
     fun getEventsResult() : List<Event> {
         return events
+    }
+
+
+    //Get all events by DATE
+    fun getEventsByDateHelper(date: Long)  = viewModelScope.launch (Dispatchers.Default){
+        noteOfDate = eventsUseCases.getEventByDate(date)
+    }
+
+    fun getEventsByDateResult() : List<Event> {
+        return noteOfDate
     }
 
 }

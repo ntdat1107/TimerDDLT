@@ -31,6 +31,10 @@ class TimerRepositoryImpl (
         timerDao.deleteEvent(event)
     }
 
+    override suspend fun getEventByDate(date: Long): List<Event> {
+        return timerDao.getEventsByDate(date)
+    }
+
 
     //________________________________________________________________________
 
@@ -52,7 +56,7 @@ class TimerRepositoryImpl (
         nextEventDao.deleteNextEvent(event)
     }
 
-    override suspend fun getNextEventByDay(date : Long): List<NextEvent> {
+    override suspend fun getNextEventByDate(date : Long): List<NextEvent> {
         return nextEventDao.getEventsByDate(date)
     }
 

@@ -26,6 +26,7 @@ class ScheduleViewModel (
         eventsUseCases.getNextEventById(id)
     }
 
+    //Get all Next events
     fun getNextEventsHelper()  = viewModelScope.launch (Dispatchers.Default){
         output = eventsUseCases.getNextEvents()
     }
@@ -35,8 +36,9 @@ class ScheduleViewModel (
     }
 
 
+    //Get all Next events by DATE
     fun getEventsByDateHelper(date: Long)  = viewModelScope.launch (Dispatchers.Default){
-        noteOfDate = eventsUseCases.getNextEventByDay(date)
+        noteOfDate = eventsUseCases.getNextEventByDate(date)
     }
 
     fun getEventsByDateResult() : List<NextEvent> {
