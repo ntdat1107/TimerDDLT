@@ -13,6 +13,8 @@ class TimerRepositoryImpl (
     private val nextEventDao : NextEventDao
 ) : TimerRepository {
 
+
+
     override fun getEvents(): Flow<List<Event>> {
         return timerDao.getEvents()
     }
@@ -63,12 +65,17 @@ class TimerRepositoryImpl (
 
 
     companion object {
+        private var timerRepositoryImpl : TimerRepository? = null
+
         fun provideTimerRepositoryImpl(context : Context): TimerRepository {
-            val timerDB = TimerDatabase.provideNoteDatabase(context.applicationContext)
-            return TimerRepositoryImpl(
-                timerDB.useTimerDao(),
-                timerDB.useNextEventDao()
-            )
+            if (timerRepositoryImpl == null) {
+                val timerDB = TimerDatabase.provideNoteDatabase(context.applicationContext)
+                timerRepositoryImpl = TimerRepositoryImpl(
+                    timerDB.useTimerDao(),
+                    timerDB.useNextEventDao()
+                )
+            }
+            return timerRepositoryImpl!!
         }
     }
 }

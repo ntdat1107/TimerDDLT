@@ -14,7 +14,7 @@ interface TimerDao {
     suspend fun getEventById(id: Int): Event?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertEvent(vararg event: Event)
+    suspend fun insertEvent(event: Event)
 
     @Delete
     suspend fun deleteEvent(event: Event)
