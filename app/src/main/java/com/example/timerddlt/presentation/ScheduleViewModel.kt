@@ -16,6 +16,7 @@ class ScheduleViewModel (
 ) : ViewModel() {
 
     private var noteOfDate : List<NextEvent> = emptyList()
+    private var output : List<NextEvent> = emptyList()
 
     fun addEvent(event: NextEvent)  = viewModelScope.launch (Dispatchers.Default){
         eventsUseCases.insertNextEvent(event)
@@ -25,9 +26,17 @@ class ScheduleViewModel (
         eventsUseCases.getNextEventById(id)
     }
 
+    fun getNextEventsHelper()  = viewModelScope.launch (Dispatchers.Default){
+        output = eventsUseCases.getNextEvents()
+    }
+
+    fun getNextEventsResult() : List<NextEvent> {
+        return output
+    }
+
+
     fun getEventsByDateHelper(date: Long)  = viewModelScope.launch (Dispatchers.Default){
-//        noteOfDate = eventsUseCases.getNextEventByDay(date)
-        eventsUseCases.getNextEventByDay(date)
+        noteOfDate = eventsUseCases.getNextEventByDay(date)
     }
 
     fun getEventsByDateResult() : List<NextEvent> {
