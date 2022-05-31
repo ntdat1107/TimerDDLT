@@ -10,10 +10,15 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.media.RingtoneManager
 import android.os.Bundle
+import android.text.TextUtils
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import com.example.timerddlt.R
+import com.example.timerddlt.data.repository.TimerRepositoryImpl
 import com.example.timerddlt.databinding.ActivityCreateScheduleBinding
+import com.example.timerddlt.domain.model.NextEvent
+import com.example.timerddlt.domain.repository.TimerRepository
 import com.example.timerddlt.services.ScheduleReceiver
 import java.util.*
 
@@ -26,10 +31,17 @@ class CreateSchedule : AppCompatActivity() {
     private var calendarSchedule: Calendar? = null
     private lateinit var prefs: SharedPreferences
 
+
+    private lateinit var timerRepositoryImpl: TimerRepository
+    private lateinit var vm: ScheduleViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateScheduleBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+
+        timerRepositoryImpl = TimerRepositoryImpl.provideTimerRepositoryImpl(applicationContext)
+        vm = ScheduleViewModel(timerRepositoryImpl)
 
         setSupportActionBar(binding?.toolbarAddSchedule)
         binding?.toolbarAddSchedule!!.setNavigationOnClickListener {
@@ -58,7 +70,7 @@ class CreateSchedule : AppCompatActivity() {
         )
 
 
-        binding?.simpleCalendarView!!.setOnDateChangeListener { view, mYear, mMonth, mDayOfMonth ->
+        binding?.simpleCalendarView!!.setOnDateChangeListener { _, mYear, mMonth, mDayOfMonth ->
             year = mYear
             month = mMonth
             dayOfMonth = mDayOfMonth
@@ -71,6 +83,14 @@ class CreateSchedule : AppCompatActivity() {
         }
 
         binding?.btnStart!!.setOnClickListener {
+            if (TextUtils.isEmpty(binding?.etDescription!!.text.toString().trim { it <= ' ' })) {
+                Toast.makeText(this, "Please enter description", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (System.currentTimeMillis() > calendarSchedule!!.timeInMillis) {
+                Toast.makeText(this, "Can't set a schedule for the past", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             scheduleNotification(
                 getNotification(
                     "It's time. You must ${binding?.etDescription!!.text} at ${binding?.tvTime!!.text} ${binding?.tvDate!!.text}"
@@ -78,6 +98,7 @@ class CreateSchedule : AppCompatActivity() {
                 calendarSchedule!!.timeInMillis,
                 currentRequestCode
             )
+            updateDatabase(calendarSchedule!!)
             currentRequestCode += 1
             val editor = prefs.edit()
             editor.putInt("current-request-code", currentRequestCode)
@@ -85,10 +106,17 @@ class CreateSchedule : AppCompatActivity() {
             finish()
         }
 
+
         binding?.iconEdit!!.setOnClickListener {
             changeTime()
         }
 
+    }
+
+    private fun updateDatabase(calendarSchedule: Calendar) {
+        val nextEvent =
+            NextEvent(binding?.etDescription!!.text.toString(), calendarSchedule.timeInMillis)
+        vm.addEvent(nextEvent)
     }
 
     private fun changeTime() {
