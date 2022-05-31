@@ -77,9 +77,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 //        vm.getEvents()
 //
-//        Thread.sleep(1000)
+//        Thread.sleep(500)
 //        val x = vm.getEventsResult()
-//        Log.d("GetList", x[0].description)
+//        for ( i in x) {
+//            Log.d("GetList", i.id.toString())
+//        }
+
 
 
 
