@@ -10,5 +10,5 @@ data class Event(
     val startTime: Long,
     val endTime: Long,
     val isSuccess: Boolean,
-    @PrimaryKey val id: Int? = null
+    @PrimaryKey (autoGenerate = true) val id: Int? = null
 )

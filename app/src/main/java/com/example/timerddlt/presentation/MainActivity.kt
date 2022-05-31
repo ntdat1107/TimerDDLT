@@ -402,7 +402,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val lasting = prefs.getLong("last-time-of-mission", 0)
         val startTime = prefs.getLong("start-time-of-mission", 0)
         val endTime = prefs.getLong("end-time-of-mission", 0)
-        val id = 4
 
         val event = Event(
             title.toString(),
@@ -411,7 +410,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             startTime,
             endTime,
             isSuccess,
-            id
         )
 
         vm.addEvent(event)
