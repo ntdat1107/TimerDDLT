@@ -23,9 +23,9 @@ class BroadcastService : Service() {
         super.onCreate()
         val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
         val remainingTime: Long = prefs.getLong("remainingTimeInMillis", -1)
-        mCountDownTimer = object : CountDownTimer(remainingTime + 2000, 1000) {
+        mCountDownTimer = object : CountDownTimer(remainingTime, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                intent.putExtra("countdown", millisUntilFinished - 2000)
+                intent.putExtra("countdown", millisUntilFinished)
                 sendBroadcast(intent)
             }
 

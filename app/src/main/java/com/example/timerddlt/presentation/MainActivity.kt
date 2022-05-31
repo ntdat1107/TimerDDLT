@@ -11,6 +11,7 @@ import android.media.RingtoneManager
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -151,6 +152,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             editor.putString("tag", binding?.tvTag!!.text.toString())
             editor.putString("description", binding?.etDescription!!.text.toString())
             editor.apply()
+            prefs
         }
 
         binding?.btnPause!!.setOnClickListener {
@@ -272,6 +274,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout = binding?.drawerLayout!!
         navigationView = binding?.navView!!
         setSupportActionBar(binding?.toolbarHome!!)
+
+        binding?.tvTitleMargin!!.visibility = View.VISIBLE
+        binding?.tvTitleNoMargin!!.visibility = View.GONE
 
         navigationView!!.bringToFront()
         val newToggle = ActionBarDrawerToggle(
@@ -404,13 +409,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun updateDatabase(isSuccess: Boolean) {
-        val prefs = getSharedPreferences("pref", MODE_PRIVATE)
+        val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
         val title = binding?.tvTag!!.text
         val description = binding?.etDescription!!.text!!
         val lasting = prefs.getLong("last-time-of-mission", 0)
         val startTime = prefs.getLong("start-time-of-mission", 0)
         val endTime = prefs.getLong("end-time-of-mission", 0)
 //        val id = 2
+
+        Log.i("test", lasting.toString())
 
         val event = Event(
             title.toString(),
