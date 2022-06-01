@@ -7,5 +7,6 @@ import androidx.room.PrimaryKey
 data class NextEvent(
     val description: String,
     val startTime: Long,
+    val requestId: Int,
     @PrimaryKey val id: Int? = null
 )

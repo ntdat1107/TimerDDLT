@@ -24,4 +24,7 @@ interface NextEventDao {
 
     @Query("DELETE FROM next_event WHERE id = :id")
     suspend fun deleteNextEventById(id: Int)
+
+    @Query("DELETE FROM next_event WHERE requestId = :id")
+    suspend fun deleteNextEventByRequestId(id: Int)
 }

@@ -65,6 +65,11 @@ class TimerRepositoryImpl (
     }
 
 
+    override suspend fun deleteNextEventByRequestId(id: Int) {
+        nextEventDao.deleteNextEventByRequestId(id)
+    }
+
+
     //________________________________________________________________________
 
 
