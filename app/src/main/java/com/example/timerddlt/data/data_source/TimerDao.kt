@@ -7,13 +7,13 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TimerDao {
-    @Query("SELECT * FROM event ORDER BY startTime DESC")
+    @Query("SELECT * FROM event WHERE isSuccess ORDER BY startTime DESC")
     suspend fun getEvents(): List<Event>
 
-    @Query("SELECT * FROM event WHERE startTime > :date AND startTime < :date + 86400000 ORDER BY startTime DESC")
+    @Query("SELECT * FROM event WHERE isSuccess AND startTime > :date AND startTime < :date + 86400000 ORDER BY startTime DESC")
     suspend fun getEventsByDate(date : Long): List<Event>
 
-    @Query("SELECT * FROM event WHERE id = :id")
+    @Query("SELECT * FROM event WHERE isSuccess AND id = :id")
     suspend fun getEventById(id: Int): Event?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
