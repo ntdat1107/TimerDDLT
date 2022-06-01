@@ -6,6 +6,7 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.view.View
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +17,7 @@ import com.example.timerddlt.domain.model.Music
 
 class MusicActivity : AppCompatActivity() {
     private var binding: ActivityMusicBinding? = null
-    private lateinit var mp: MediaPlayer
+    private var mp: MediaPlayer? = null
     private var currentMusic: Int = 0
     private var musics: ArrayList<Music> = ArrayList()
 
@@ -32,10 +33,11 @@ class MusicActivity : AppCompatActivity() {
         }
 
         musics = ArrayList()
-        musics.add(Music("Phút ban đầu 1", "phutbandau", "Nothing"))
-        musics.add(Music("Phút ban đầu 2", "phutbandau", "Nothing"))
-        musics.add(Music("Phút ban đầu 3", "phutbandau", "Nothing"))
-        musics.add(Music("Phút ban đầu 4", "phutbandau", "Nothing"))
+        musics.add(Music("Raining sound", "rain_sound", "Raining sound for chill"))
+        musics.add(Music("Far from home", "far_from_home", "Sad music"))
+        musics.add(Music("Lofi study", "lofi_study", "Lofi for studying"))
+        musics.add(Music("Chill lofi", "chill_lofi", "Lofi for chilling"))
+        musics.add(Music("Relax music", "relax", "Music for relaxing"))
 
         val musicAdapter = MusicAdapter(this, this, musics)
         binding?.rvMusic!!.adapter = musicAdapter
@@ -45,37 +47,47 @@ class MusicActivity : AppCompatActivity() {
         settingMP(currentMusic)
 
         binding?.btnPlay!!.setOnClickListener {
-            if (mp.isPlaying) {
-                mp.pause()
+            if (mp!!.isPlaying) {
+                mp!!.pause()
                 binding?.btnPlay!!.setImageResource(R.drawable.ic_baseline_play_arrow_24)
             } else {
-                mp.start()
+                mp!!.start()
                 binding?.btnPlay!!.setImageResource(R.drawable.ic_baseline_pause_24)
             }
         }
 
         binding?.btnNext!!.setOnClickListener {
-            mp.stop()
+            mp!!.stop()
+            mp = null
+            binding?.llNavigation!!.visibility = View.INVISIBLE
             if (currentMusic == musics.size - 1) {
                 currentMusic = 0
             } else {
                 currentMusic += 1
             }
-            settingMP(currentMusic)
-            mp.start()
-            binding?.btnPlay!!.setImageResource(R.drawable.ic_baseline_pause_24)
+            Handler().postDelayed({
+                settingMP(currentMusic)
+                binding?.llNavigation!!.visibility = View.VISIBLE
+                mp!!.start()
+                binding?.btnPlay!!.setImageResource(R.drawable.ic_baseline_pause_24)
+            }, 1250)
         }
 
         binding?.btnPrev!!.setOnClickListener {
-            mp.stop()
+            mp!!.stop()
+            mp = null
+            binding?.llNavigation!!.visibility = View.INVISIBLE
             if (currentMusic == 0) {
                 currentMusic = musics.size - 1
             } else {
                 currentMusic -= 1
             }
-            settingMP(currentMusic)
-            mp.start()
-            binding?.btnPlay!!.setImageResource(R.drawable.ic_baseline_pause_24)
+            Handler().postDelayed({
+                settingMP(currentMusic)
+                binding?.llNavigation!!.visibility = View.VISIBLE
+                mp!!.start()
+                binding?.btnPlay!!.setImageResource(R.drawable.ic_baseline_pause_24)
+            }, 1250)
         }
         binding?.btnSelect!!.setOnClickListener {
             AlertDialog.Builder(this).setTitle("Setup music")
@@ -96,21 +108,93 @@ class MusicActivity : AppCompatActivity() {
 
     }
 
-    fun settingMP(nowPos: Int, isActivity: Boolean = true) {
+    fun settingMP(nowPos: Int, isActivity: Boolean) {
+
         currentMusic = nowPos
 
         if (!isActivity) {
-            mp.stop()
+            mp!!.stop()
+            mp = null
         }
+        binding?.llNavigation!!.visibility = View.INVISIBLE
+        Handler().postDelayed({
+            binding?.tvName!!.text = musics[nowPos].name
+            mp =
+                MediaPlayer.create(
+                    this,
+                    resources.getIdentifier(musics[nowPos].rawName, "raw", packageName)
+                )
+            mp!!.isLooping = true
+            val totalTime = mp!!.duration
+            binding?.sbTime!!.max = totalTime
+            binding?.sbTime!!.setOnSeekBarChangeListener(
+                object : SeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(
+                        seekBar: SeekBar?,
+                        progress: Int,
+                        fromUser: Boolean
+                    ) {
+                        if (fromUser) {
+                            mp!!.seekTo(progress)
+                        }
+                    }
 
+                    override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                    }
+
+                    override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                    }
+
+                })
+
+            @SuppressLint("HandlerLeak")
+            val handler =
+                object : Handler() {
+                    override fun handleMessage(msg: Message) {
+                        val currentPosition = msg.what
+
+                        binding?.sbTime!!.progress = currentPosition
+                        val elapsedTime = createTimeLabel(currentPosition)
+                        binding?.elapsedTimeLabel!!.text = elapsedTime
+                        binding?.remainingTimeLabel!!.text =
+                            createTimeLabel(totalTime - currentPosition)
+                    }
+                }
+
+
+            Thread(Runnable {
+                while (mp != null) {
+                    try {
+                        if (mp!!.isPlaying) {
+                            val msg = Message()
+                            msg.what = mp!!.currentPosition
+                            handler.sendMessage(msg)
+                            Thread.sleep(1000)
+                        }
+                    } catch (e: InterruptedException) {
+
+                    }
+                }
+            }).start()
+
+            if (!isActivity) {
+                binding?.llNavigation!!.visibility = View.VISIBLE
+                mp!!.start()
+                binding?.btnPlay!!.setImageResource(R.drawable.ic_baseline_pause_24)
+            }
+        }, 1250)
+    }
+
+    private fun settingMP(nowPos: Int) {
+        currentMusic = nowPos
         binding?.tvName!!.text = musics[nowPos].name
         mp =
             MediaPlayer.create(
                 this,
                 resources.getIdentifier(musics[nowPos].rawName, "raw", packageName)
             )
-        mp.isLooping = true
-        val totalTime = mp.duration
+        mp!!.isLooping = true
+        val totalTime = mp!!.duration
         binding?.sbTime!!.max = totalTime
         binding?.sbTime!!.setOnSeekBarChangeListener(
             object : SeekBar.OnSeekBarChangeListener {
@@ -120,7 +204,7 @@ class MusicActivity : AppCompatActivity() {
                     fromUser: Boolean
                 ) {
                     if (fromUser) {
-                        mp.seekTo(progress)
+                        mp!!.seekTo(progress)
                     }
                 }
 
@@ -147,27 +231,25 @@ class MusicActivity : AppCompatActivity() {
                 }
             }
 
+
         Thread(Runnable {
-            while (true) {
+            while (mp != null) {
                 try {
-                    val msg = Message()
-                    msg.what = mp.currentPosition
-                    handler.sendMessage(msg)
-                    Thread.sleep(1000)
+                    if (mp!!.isPlaying) {
+                        val msg = Message()
+                        msg.what = mp!!.currentPosition
+                        handler.sendMessage(msg)
+                        Thread.sleep(1000)
+                    }
                 } catch (e: InterruptedException) {
 
                 }
             }
         }).start()
-
-        if (!isActivity) {
-            mp.start()
-            binding?.btnPlay!!.setImageResource(R.drawable.ic_baseline_pause_24)
-        }
     }
 
     private fun createTimeLabel(time: Int): String {
-        var timeLabel = ""
+        var timeLabel: String
         val min = time / 1000 / 60
         val sec = time / 1000 % 60
         timeLabel = "$min:"
@@ -177,13 +259,14 @@ class MusicActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        mp.pause()
+        mp!!.pause()
         binding?.btnPlay!!.setImageResource(R.drawable.ic_baseline_play_arrow_24)
         super.onPause()
     }
 
     override fun onDestroy() {
-        mp.stop()
+        mp!!.stop()
+        mp = null
         super.onDestroy()
     }
 }

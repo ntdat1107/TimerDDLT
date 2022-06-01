@@ -11,7 +11,6 @@ import android.media.RingtoneManager
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -45,15 +44,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var millisUntilFinished: Long = mTimeInMilis
     private var checkedItem: Int = 0
 
-
     private lateinit var timerRepositoryImpl: TimerRepository
     private lateinit var vm: MainViewModel
-    private lateinit var vm2: ScheduleViewModel
-
 
     ///////////
     private lateinit var mp: MediaPlayer
 
+    private var isNotify: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,31 +63,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         timerRepositoryImpl = TimerRepositoryImpl.provideTimerRepositoryImpl(applicationContext)
         vm = MainViewModel(timerRepositoryImpl)
-//        vm2 = ScheduleViewModel(timerRepositoryImpl)
-
-
-//        vm2.getEventsByDateHelper(1)
-//
-//        Thread.sleep(1000)
-//        val x = vm2.getEventsByDateResult()
-//        Log.d("GetList", x.toString())
-
-//        vm.getEvents()
-//
-//        Thread.sleep(500)
-//        val x = vm.getEventsResult()
-//        for ( i in x) {
-//            Log.d("GetList", i.id.toString())
-//        }
-
-
-
-
 
         val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
         mTimeInMilis = prefs.getLong("millisLeft", 600000)
         state = prefs.getInt("timerRunning", 0)
         val mEndTime = prefs.getLong("endTime", 0)
+        isNotify = prefs.getBoolean("isNotify", true)
+
         val editor = prefs.edit()
         if (state != 0) {
             val timeDiff: Long = abs(mEndTime - System.currentTimeMillis())
@@ -123,8 +102,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
 
-        val musicRawName = prefs.getString("rawNameMusic", "phutbandau")
-        binding?.tvMusicName!!.text = prefs.getString("nameMusic", "None")
+        val musicRawName = prefs.getString("rawNameMusic", "rain_sound")
+        binding?.tvMusicName!!.text = prefs.getString("nameMusic", "Raining sound")
 
         mp = MediaPlayer.create(
             this,
@@ -158,14 +137,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val currentTimeInMillis: Long = System.currentTimeMillis()
             startService(intentService)
 
-            scheduleNotification(
-                getNotification(
-                    "You've done ${binding?.tvTag!!.text} in ${
-                        binding?.tvTimer!!.text.toString().substring(0, 2)
-                    }m${binding?.tvTimer!!.text.toString().substring(3, 5)}s"
-                ),
-                currentTimeInMillis + mTimeInMilis
-            )
+            if (isNotify) {
+                scheduleNotification(
+                    getNotification(
+                        "You've done ${binding?.tvTag!!.text} in ${
+                            binding?.tvTimer!!.text.toString().substring(0, 2)
+                        }m${binding?.tvTimer!!.text.toString().substring(3, 5)}s"
+                    ),
+                    currentTimeInMillis + mTimeInMilis
+                )
+            }
 
             editor.putLong("start-time-of-mission", currentTimeInMillis)
             editor.putLong("end-time-of-mission", currentTimeInMillis + mTimeInMilis)
@@ -173,7 +154,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             editor.putString("tag", binding?.tvTag!!.text.toString())
             editor.putString("description", binding?.etDescription!!.text.toString())
             editor.apply()
-            prefs
         }
 
         binding?.btnPause!!.setOnClickListener {
@@ -192,18 +172,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val currentTimeInMillis: Long = System.currentTimeMillis()
 
             startService(intentService)
+            if (isNotify) {
+                val intentNotify = Intent(this, NoticeReceiver::class.java)
 
-            val intentNotify = Intent(this, NoticeReceiver::class.java)
+                pendingIntent =
+                    PendingIntent.getBroadcast(
+                        this,
+                        0,
+                        intentNotify,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                    )
 
-            pendingIntent = PendingIntent.getBroadcast(this, 0, intentNotify, 0)
+                alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
 
-            alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+                val timeNotify: Long = currentTimeInMillis + mTimeInMilis
+                alarmManager!!.set(AlarmManager.RTC_WAKEUP, timeNotify, pendingIntent)
 
-            val timeNotify: Long = currentTimeInMillis + mTimeInMilis
-            alarmManager!!.set(AlarmManager.RTC_WAKEUP, timeNotify, pendingIntent)
-
-            editor.putLong("end-time-of-mission", timeNotify)
-            editor.apply()
+                editor.putLong("end-time-of-mission", timeNotify)
+                editor.apply()
+            }
         }
 
         binding?.iconEdit!!.setOnClickListener {
@@ -285,6 +272,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_alarm_setting -> {
                 startActivity(Intent(this, MusicActivity::class.java))
             }
+            R.id.nav_settings -> {
+                startActivity(Intent(this, SettingActivity::class.java))
+            }
         }
         drawerLayout!!.close()
         return true
@@ -338,14 +328,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
         val editor = prefs.edit()
         val isFinished = prefs.getBoolean("finished", false)
+        isNotify = prefs.getBoolean("isNotify", true)
         state = prefs.getInt("timerRunning", 0)
         if (state == 0) {
             setUpSideBar()
         } else {
             binding?.llMusic!!.visibility = View.VISIBLE
         }
-        val musicRawName = prefs.getString("rawNameMusic", "phutbandau")
-        binding?.tvMusicName!!.text = prefs.getString("nameMusic", "None")
+        val musicRawName = prefs.getString("rawNameMusic", "rain_sound")
+        binding?.tvMusicName!!.text = prefs.getString("nameMusic", "Raining Sound (default)")
 
         mp = MediaPlayer.create(
             this,
@@ -450,7 +441,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         vm.addEvent(event)
     }
-
 
     private fun startTimer() {
         state = 1

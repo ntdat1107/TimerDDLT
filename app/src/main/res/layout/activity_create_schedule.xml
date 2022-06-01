@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.CreateSchedule"
-    android:background="@color/primary_color">
+    android:background="@color/primary_color"
+    tools:context=".presentation.CreateSchedule">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_add_schedule"
@@ -53,7 +53,7 @@
     <LinearLayout
         android:id="@+id/ll_info"
         android:layout_width="match_parent"
-        android:layout_height="275dp"
+        android:layout_height="300dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
@@ -142,7 +142,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/button_background_start"
             android:gravity="center"
             android:paddingStart="35dp"
