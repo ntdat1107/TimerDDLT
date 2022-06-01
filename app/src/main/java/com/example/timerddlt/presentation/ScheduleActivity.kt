@@ -1,10 +1,12 @@
 package com.example.timerddlt.presentation
 
 import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -16,6 +18,7 @@ import com.example.timerddlt.data.repository.TimerRepositoryImpl
 import com.example.timerddlt.databinding.ActivityScheduleBinding
 import com.example.timerddlt.domain.model.NextEvent
 import com.example.timerddlt.domain.repository.TimerRepository
+import com.example.timerddlt.services.ScheduleReceiver
 import java.util.*
 
 class ScheduleActivity : AppCompatActivity() {
@@ -27,6 +30,7 @@ class ScheduleActivity : AppCompatActivity() {
 
     private lateinit var timerRepositoryImpl: TimerRepository
     private lateinit var vm: ScheduleViewModel
+    private lateinit var calendar: Calendar
 
     @SuppressLint("UnspecifiedImmutableFlag")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +47,7 @@ class ScheduleActivity : AppCompatActivity() {
         }
 
         binding?.simpleCalendarView!!.setDate(System.currentTimeMillis(), true, true)
-        val calendar = Calendar.getInstance()
+        calendar = Calendar.getInstance()
         year = calendar.get(Calendar.YEAR)
         month = calendar.get(Calendar.MONTH)
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
@@ -73,17 +77,6 @@ class ScheduleActivity : AppCompatActivity() {
             val scheduleList = vm.getEventsByDateResult()
             updateRv(scheduleList)
         }, 500)
-
-//        val notificationIntent = Intent(this, ScheduleReceiver::class.java)
-//
-//        val pendingIntent = PendingIntent.getBroadcast(
-//            this,
-//            1,
-//            notificationIntent,
-//            PendingIntent.FLAG_UPDATE_CURRENT
-//        )
-//        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//        alarmManager.cancel(pendingIntent)
     }
 
     private fun updateRv(scheduleList: List<NextEvent>) {
@@ -94,7 +87,7 @@ class ScheduleActivity : AppCompatActivity() {
             binding?.rvSchedule!!.visibility = View.GONE
             binding?.tvNoItem!!.visibility = View.VISIBLE
         } else {
-            val scheduleAdapter = ScheduleAdapter(this, schedules)
+            val scheduleAdapter = ScheduleAdapter(this, this, schedules)
             binding?.rvSchedule!!.adapter = scheduleAdapter
             binding?.rvSchedule!!.layoutManager = LinearLayoutManager(this)
 
@@ -116,6 +109,27 @@ class ScheduleActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun removeSchedule(requestId: Int) {
+        val notificationIntent = Intent(this, ScheduleReceiver::class.java)
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            requestId,
+            notificationIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(pendingIntent)
+
+        vm.deleteNextEventByRequestId(requestId)
+        vm.getEventsByDateHelper(calendar.timeInMillis)
+        Handler().postDelayed({
+            val scheduleList = vm.getEventsByDateResult()
+            updateRv(scheduleList)
+        }, 500)
+
     }
 
 

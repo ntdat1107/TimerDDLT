@@ -31,4 +31,12 @@
         android:layout_weight="1"
         android:text="@string/schedule_description"
         android:textColor="@color/white" />
+
+    <ImageView
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_delete" />
+
 </LinearLayout>
