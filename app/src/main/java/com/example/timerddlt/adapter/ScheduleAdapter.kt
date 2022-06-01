@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.timerddlt.databinding.ItemScheduleBinding
 import com.example.timerddlt.domain.model.NextEvent
 import com.example.timerddlt.presentation.ScheduleActivity
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ScheduleAdapter(
     private var activity: ScheduleActivity,
@@ -23,7 +26,13 @@ class ScheduleAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val schedule: NextEvent = schedules[position]
-        holder.binding.tvTime.text = schedule.startTime.toString()
+
+        val id = Locale("en", "US")
+        val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", id)
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = schedule.startTime
+
+        holder.binding.tvTime.text = simpleDateFormat.format(calendar.time)
         holder.binding.tvDescription.text = schedule.description
         holder.binding.btnDelete.setOnClickListener {
             AlertDialog.Builder(context).setTitle("Remove")

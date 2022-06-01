@@ -69,14 +69,14 @@ class ScheduleActivity : AppCompatActivity() {
             Handler().postDelayed({
                 val scheduleList = vm.getEventsByDateResult()
                 updateRv(scheduleList)
-            }, 500)
+            }, 750)
         }
 
         vm.getEventsByDateHelper(calendar.timeInMillis)
         Handler().postDelayed({
             val scheduleList = vm.getEventsByDateResult()
             updateRv(scheduleList)
-        }, 500)
+        }, 750)
     }
 
     private fun updateRv(scheduleList: List<NextEvent>) {
@@ -128,7 +128,7 @@ class ScheduleActivity : AppCompatActivity() {
         Handler().postDelayed({
             val scheduleList = vm.getEventsByDateResult()
             updateRv(scheduleList)
-        }, 500)
+        }, 750)
 
     }
 

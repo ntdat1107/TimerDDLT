@@ -70,7 +70,7 @@ class StatisticActivity : AppCompatActivity() {
                 binding?.tvNoItem!!.visibility = View.GONE
                 loadPieChart(pieChart!!, content, eventLists)
             }
-        }, 500)
+        }, 750)
 
 
 
@@ -95,7 +95,7 @@ class StatisticActivity : AppCompatActivity() {
                                 binding?.tvNoItem!!.visibility = View.GONE
                                 loadPieChart(pieChart!!, content, eventLists)
                             }
-                        }, 500)
+                        }, 750)
                         yearNow = year
                         monthNow = month
                         dayNow = dayOfMonth
@@ -121,9 +121,7 @@ class StatisticActivity : AppCompatActivity() {
             }
             sum += i.lasting
         }
-        Log.i("test", sum.toString())
         for (i in hashMap.keys) {
-            Log.i("test", hashMap[i]!!.toString())
             hashMap[i] = ((hashMap[i]!! / sum) * 10000).toInt().toDouble() / 100
         }
 
