@@ -98,7 +98,7 @@ class CreateSchedule : AppCompatActivity() {
                 calendarSchedule!!.timeInMillis,
                 currentRequestCode
             )
-            updateDatabase(calendarSchedule!!)
+            updateDatabase(calendarSchedule!!, currentRequestCode)
             currentRequestCode += 1
             val editor = prefs.edit()
             editor.putInt("current-request-code", currentRequestCode)
@@ -113,9 +113,9 @@ class CreateSchedule : AppCompatActivity() {
 
     }
 
-    private fun updateDatabase(calendarSchedule: Calendar) {
+    private fun updateDatabase(calendarSchedule: Calendar, currentRequestCode: Int) {
         val nextEvent =
-            NextEvent(binding?.etDescription!!.text.toString(), calendarSchedule.timeInMillis)
+            NextEvent(binding?.etDescription!!.text.toString(), calendarSchedule.timeInMillis, currentRequestCode)
         vm.addEvent(nextEvent)
     }
 

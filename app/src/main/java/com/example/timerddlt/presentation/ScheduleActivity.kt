@@ -56,25 +56,23 @@ class ScheduleActivity : AppCompatActivity() {
             month = mMonth
             dayOfMonth = mDayOfMonth
 
+            calendar.set(Calendar.YEAR, year)
+            calendar.set(Calendar.MONTH, month)
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
             // Reload schedule
             vm.getEventsByDateHelper(calendar.timeInMillis)
             Handler().postDelayed({
                 val scheduleList = vm.getEventsByDateResult()
+                updateRv(scheduleList)
             }, 500)
         }
 
         vm.getEventsByDateHelper(calendar.timeInMillis)
-        Log.i("test", "pre")
         Handler().postDelayed({
             val scheduleList = vm.getEventsByDateResult()
-            Log.i("test", "success")
-            Log.i("test", scheduleList.toString())
-            for (i in scheduleList) {
-                Log.i("test", i.description)
-            }
             updateRv(scheduleList)
         }, 500)
-        Log.i("test", "after")
 
 //        val notificationIntent = Intent(this, ScheduleReceiver::class.java)
 //
@@ -92,19 +90,17 @@ class ScheduleActivity : AppCompatActivity() {
 
         val schedules: ArrayList<NextEvent> = ArrayList(scheduleList)
 
-        for (i in scheduleList) {
-            Log.i("test", i.description)
+        if (schedules.isEmpty()) {
+            binding?.rvSchedule!!.visibility = View.GONE
+            binding?.tvNoItem!!.visibility = View.VISIBLE
+        } else {
+            val scheduleAdapter = ScheduleAdapter(this, schedules)
+            binding?.rvSchedule!!.adapter = scheduleAdapter
+            binding?.rvSchedule!!.layoutManager = LinearLayoutManager(this)
+
+            binding?.rvSchedule!!.visibility = View.VISIBLE
+            binding?.tvNoItem!!.visibility = View.GONE
         }
-
-        val scheduleAdapter = ScheduleAdapter(this, schedules)
-        binding?.rvSchedule!!.adapter = scheduleAdapter
-        binding?.rvSchedule!!.layoutManager = LinearLayoutManager(this)
-
-        binding?.rvSchedule!!.visibility = View.VISIBLE
-        binding?.tvNoItem!!.visibility = View.GONE
-
-        binding?.rvSchedule!!.visibility = View.GONE
-        binding?.tvNoItem!!.visibility = View.VISIBLE
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
