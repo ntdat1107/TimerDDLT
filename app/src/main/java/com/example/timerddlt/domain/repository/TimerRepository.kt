@@ -18,6 +18,7 @@ interface TimerRepository {
     suspend fun getNextEventById(id: Int) : NextEvent?
     suspend fun insertNextEvent(event: NextEvent)
     suspend fun deleteNextEvent(event: NextEvent)
+    suspend fun deleteNextEventById(id : Int)
 
 
 }

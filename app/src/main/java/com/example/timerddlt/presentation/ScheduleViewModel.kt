@@ -22,6 +22,13 @@ class ScheduleViewModel (
         eventsUseCases.insertNextEvent(event)
     }
 
+    // Delete next events by Id
+    fun deleteNextEventById(id: Int) = viewModelScope.launch (Dispatchers.Default){
+        eventsUseCases.deleteNextEventById(id)
+    }
+
+
+
     fun getEventsByID(id: Int)  = viewModelScope.launch (Dispatchers.Default){
         eventsUseCases.getNextEventById(id)
     }
